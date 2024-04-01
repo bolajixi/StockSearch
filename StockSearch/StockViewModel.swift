@@ -14,8 +14,6 @@ class StockViewModel: ObservableObject {
     public var holdingStockResponse: StockDataResponse?
     
     @Published var stockDataResponse: StockDataResponse?
-    @Published var watchlistResponse: WatchlistResponse?
-    @Published var portfolioResponse: PortfolioResponse?
     
     @Published var dataIsAvailable: Bool = false
     @Published var stockNotFound: Bool = false
@@ -239,8 +237,6 @@ class StockViewModel: ObservableObject {
             }
             
             if let historyResponse = try? JSONDecoder().decode(HistoryAPIResponse.self, from: data) {
-                
-                print(historyResponse)
                 let priceHistoryData = historyResponse.data.results.map {  PriceData(timestamp: $0.timestamp, price: $0.close) }
                 let volumeHistoryData = historyResponse.data.results.map { VolumeData(timestamp: $0.timestamp, volume: $0.volume) }
                 let ohlcData = historyResponse.data.results.map { OHLCData(timestamp: $0.timestamp, open: $0.open, close: $0.close, high: $0.high, low: $0.low) }

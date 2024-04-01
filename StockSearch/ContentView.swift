@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = StockViewModel()
+    @StateObject var stockViewModel = StockViewModel()
+    @StateObject var watchlistViewModel = WatchlistViewModel()
+    @StateObject var portfolioViewModel = PortfolioViewModel()
+    
     let ticker = "META"
     
     var body: some View {
@@ -16,14 +19,33 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Ticker: \(viewModel.stockDataResponse?.info.ticker ?? "")")
+            Text("Ticker: \(stockViewModel.stockDataResponse?.info.ticker ?? "")")
             
-            Button("Fetch Data") {
-                viewModel.fetchData(forTicker: ticker) { stockDataResponse in
+            Button("Fetch Stock Data") {
+                stockViewModel.fetchData(forTicker: ticker) { stockDataResponse in
                     if let stockDataResponse = stockDataResponse {
-                        print(viewModel.stockDataResponse?.priceHistory)
+                        print(stockViewModel.stockDataResponse?.priceHistory)
                     } else {
                         print("Failed to fetch data")
+                    }
+                }
+            }
+            Button("Fetch Watchlist") {
+                watchlistViewModel.fetchWatchlist { watchlist in
+                    if let watchlist = watchlist {
+                        print(watchlist)
+                    } else {
+                        print("Failed to fetch watchlist")
+                    }
+                }
+            }
+            
+            Button("Fetch Portfolio") {
+                portfolioViewModel.fetchPortfolio { portfolio in
+                    if let portfolio = portfolio {
+                        print(portfolio)
+                    } else {
+                        print("Failed to fetch portfolio")
                     }
                 }
             }

@@ -24,7 +24,15 @@ struct PurchaseHistory: Codable {
     var id: String
 }
 
-struct PortfolioResponse: Codable {
+struct Portfolio: Codable {
+    var _id: String
     var availableBalance: Double
     var stocks: [PortfolioStock]
+    var __v: Int
+}
+
+// API Responses: START --------------------------------------------
+struct PortfolioAPIResponse: Codable {
+    let success: Bool
+    let data: [Portfolio]
 }

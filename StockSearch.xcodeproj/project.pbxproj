@@ -18,6 +18,8 @@
 		0FF8C3AD2BBA18BF008480B7 /* StockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF8C3AC2BBA18BF008480B7 /* StockViewModel.swift */; };
 		0FF8C3AF2BBA2E48008480B7 /* Watchlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF8C3AE2BBA2E48008480B7 /* Watchlist.swift */; };
 		0FF8C3B12BBA2FF0008480B7 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF8C3B02BBA2FF0008480B7 /* Portfolio.swift */; };
+		0FF8C3B32BBA9AED008480B7 /* WatchlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF8C3B22BBA9AED008480B7 /* WatchlistViewModel.swift */; };
+		0FF8C3B52BBA9B00008480B7 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF8C3B42BBA9B00008480B7 /* PortfolioViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		0FF8C3AC2BBA18BF008480B7 /* StockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockViewModel.swift; sourceTree = "<group>"; };
 		0FF8C3AE2BBA2E48008480B7 /* Watchlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchlist.swift; sourceTree = "<group>"; };
 		0FF8C3B02BBA2FF0008480B7 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
+		0FF8C3B22BBA9AED008480B7 /* WatchlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistViewModel.swift; sourceTree = "<group>"; };
+		0FF8C3B42BBA9B00008480B7 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				0FEA65332BBA099500576B22 /* ContentView.swift */,
 				0FF8C3AA2BBA1430008480B7 /* Stock.swift */,
 				0FF8C3AC2BBA18BF008480B7 /* StockViewModel.swift */,
+				0FF8C3B22BBA9AED008480B7 /* WatchlistViewModel.swift */,
+				0FF8C3B42BBA9B00008480B7 /* PortfolioViewModel.swift */,
 				0FF8C3AE2BBA2E48008480B7 /* Watchlist.swift */,
 				0FF8C3B02BBA2FF0008480B7 /* Portfolio.swift */,
 				0FEA65352BBA099700576B22 /* Assets.xcassets */,
@@ -270,9 +276,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FF8C3B12BBA2FF0008480B7 /* Portfolio.swift in Sources */,
+				0FF8C3B32BBA9AED008480B7 /* WatchlistViewModel.swift in Sources */,
 				0FEA65342BBA099500576B22 /* ContentView.swift in Sources */,
 				0FEA65322BBA099500576B22 /* StockSearchApp.swift in Sources */,
 				0FF8C3AB2BBA1430008480B7 /* Stock.swift in Sources */,
+				0FF8C3B52BBA9B00008480B7 /* PortfolioViewModel.swift in Sources */,
 				0FF8C3AF2BBA2E48008480B7 /* Watchlist.swift in Sources */,
 				0FF8C3AD2BBA18BF008480B7 /* StockViewModel.swift in Sources */,
 			);

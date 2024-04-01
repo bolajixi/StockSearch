@@ -17,6 +17,12 @@ struct WatchlistStock: Codable, Identifiable {
     var priceChangePercentage: Double
 }
 
-struct WatchlistResponse: Codable {
+struct Watchlist: Codable {
     var stocks: [WatchlistStock]
+}
+
+// API Responses: START --------------------------------------------
+struct WatchlistAPIResponse: Codable {
+    let success: Bool
+    let data: Watchlist
 }
