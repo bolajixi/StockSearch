@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     @StateObject var stockViewModel = StockViewModel()
     @StateObject var watchlistViewModel = WatchlistViewModel()
     @StateObject var portfolioViewModel = PortfolioViewModel()
@@ -24,7 +24,7 @@ struct ContentView: View {
             Button("Fetch Stock Data") {
                 stockViewModel.fetchData(forTicker: ticker) { stockDataResponse in
                     if let stockDataResponse = stockDataResponse {
-                        print(stockViewModel.stockDataResponse?.priceHistory)
+                        print(stockViewModel.stockDataResponse!)
                     } else {
                         print("Failed to fetch data")
                     }
@@ -33,7 +33,7 @@ struct ContentView: View {
             Button("Fetch Watchlist") {
                 watchlistViewModel.fetchWatchlist { watchlist in
                     if let watchlist = watchlist {
-                        print(watchlist)
+                        print(watchlistViewModel.watchlist!)
                     } else {
                         print("Failed to fetch watchlist")
                     }
@@ -43,7 +43,7 @@ struct ContentView: View {
             Button("Fetch Portfolio") {
                 portfolioViewModel.fetchPortfolio { portfolio in
                     if let portfolio = portfolio {
-                        print(portfolio)
+                        print(portfolioViewModel.portfolio!)
                     } else {
                         print("Failed to fetch portfolio")
                     }
@@ -58,5 +58,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HomeView()
 }
