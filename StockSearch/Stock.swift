@@ -21,23 +21,23 @@ struct RecommendationData: Codable {
 
 struct PriceData: Codable, Identifiable {
     var id = UUID()
-    var price: Double
     var timestamp: Int
+    var price: Double
 }
 
 struct VolumeData: Codable, Identifiable {
     var id = UUID()
-    var volume: Double
     var timestamp: Int
+    var volume: Double
 }
 
 struct OHLCData: Codable, Identifiable {
     var id = UUID()
+    var timestamp: Int
     var open: Double
     var close: Double
     var high: Double
     var low: Double
-    var timestamp: Int
 }
 
 struct NewsItem: Codable {
@@ -59,6 +59,28 @@ struct SentimentData: Codable {
     var mspr: Double
 }
 
+struct HistoryData: Codable {
+    var volume: Double
+    var volumeWeightedAveragePrice: Double
+    var open: Double
+    var close: Double
+    var high: Double
+    var low: Double
+    var timestamp: Int
+    var numberOfTrades: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case volume = "v"
+        case volumeWeightedAveragePrice = "vw"
+        case open = "o"
+        case close = "c"
+        case high = "h"
+        case low = "l"
+        case timestamp = "t"
+        case numberOfTrades = "n"
+    }
+}
+
 struct EarningsData: Codable {
     var actual: Double
     var estimate: Double
@@ -68,6 +90,59 @@ struct EarningsData: Codable {
     var surprisePercent: Double
     var symbol: String
     var year: Int
+}
+
+struct Info: Codable {
+    var country: String
+    var currency: String
+    var estimateCurrency: String
+    var exchange: String
+    var finnhubIndustry: String
+    var ipo: String
+    var logo: String
+    var marketCapitalization: Double
+    var name: String
+    var phone: String
+    var shareOutstanding: Double
+    var ticker: String
+    var weburl: String
+}
+
+struct Summary: Codable {
+    var current: Double
+    var change: Double
+    var changePercentage: Double
+    var high: Double
+    var low: Double
+    var open: Double
+    var previousClose: Double
+    var timestamp: String
+    
+    enum CodingKeys: String, CodingKey {
+        case current = "c"
+        case change = "d"
+        case changePercentage = "dp"
+        case high = "h"
+        case low = "l"
+        case open = "o"
+        case previousClose = "pc"
+        case timestamp = "t"
+    }
+}
+
+struct TwoYearPriceHistory: Identifiable  {
+    var id = UUID()
+    var data: [PriceData]
+}
+
+struct TwoYearVolumeHistory: Identifiable  {
+    var id = UUID()
+    var data: [VolumeData]
+}
+
+struct TwoYearOHLCHistory: Identifiable  {
+    var id = UUID()
+    var data: [OHLCData]
 }
 
 // API Responses: START --------------------------------------------
@@ -94,7 +169,18 @@ struct LatestNewsAPIResponse: Codable  {
 
 struct HistoryAPIResponse: Codable  {
     let success: Bool
-    var data: [NewsItem]
+    var data: HistoryDataContainer
+}
+
+struct HistoryDataContainer: Codable {
+    let ticker: String
+    let queryCount: Int
+    let resultsCount: Int
+    let adjusted: Bool
+    let results: [HistoryData]
+    let status: String
+    let request_id: String
+    let count: Int
 }
 
 struct PeersAPIResponse: Codable {
@@ -111,54 +197,13 @@ struct SentimentDataContainer: Codable {
     let data: [SentimentData]
     let symbol: String
 }
+
 struct EarningsAPIResponse: Codable {
     let success: Bool
     var data: [EarningsData]
 }
 
 // API Responses: END ----------------------------------------------
-
-struct Info: Codable {
-    var country: String
-    var currency: String
-    var estimateCurrency: String
-    var exchange: String
-    var finnhubIndustry: String
-    var ipo: String
-    var logo: String
-    var marketCapitalization: Double
-    var name: String
-    var phone: String
-    var shareOutstanding: Double
-    var ticker: String
-    var weburl: String
-}
-
-struct Summary: Codable {
-    var c: Double
-    var d: Double
-    var dp: Double
-    var h: Double
-    var l: Double
-    var o: Double
-    var pc: Double
-    var t: String
-}
-
-struct TwoYearPriceHistory: Identifiable  {
-    var id = UUID()
-    var data: [PriceData]
-}
-
-struct TwoYearVolumeHistory: Identifiable  {
-    var id = UUID()
-    var data: [VolumeData]
-}
-
-struct TwoYearOHLCHistory: Identifiable  {
-    var id = UUID()
-    var data: [OHLCData]
-}
 
 //struct Watchlist: Identifiable  {
 //    var id = UUID()
@@ -177,9 +222,9 @@ struct StockDataResponse {
     var peers: [String]
     var sentiment: [SentimentData]
     var earnings: [EarningsData]
-//    var priceHistory: TwoYearPriceHistory
-//    var volumeHistory: TwoYearVolumeHistory
-//    var ohlcHistory: TwoYearOHLCHistory
+    var priceHistory: [PriceData]
+    var volumeHistory: [VolumeData]
+    var ohlcHistory: [OHLCData]
 //    var watchlist: Watchlist
 //    var portfolio: Portfolio
 }

@@ -21,7 +21,7 @@ struct ContentView: View {
             Button("Fetch Data") {
                 viewModel.fetchData(forTicker: ticker) { stockDataResponse in
                     if let stockDataResponse = stockDataResponse {
-                        print(stockDataResponse)
+                        print(viewModel.stockDataResponse?.priceHistory)
                     } else {
                         print("Failed to fetch data")
                     }

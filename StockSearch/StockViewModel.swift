@@ -29,6 +29,9 @@ class StockViewModel: ObservableObject {
         var peers: [String]?
         var sentiment: [SentimentData]?
         var earnings: [EarningsData]?
+        var priceHistory: [PriceData]?
+        var volumeHistory: [VolumeData]?
+        var ohlcHistory: [OHLCData]?
 
         let group = DispatchGroup()
 
@@ -73,11 +76,24 @@ class StockViewModel: ObservableObject {
             earnings = data
             group.leave()
         }
+        
+        group.enter()
+        fetchHistory(forTicker: ticker) { priceData, volumeData, ohlcData in
+            if let priceData = priceData, let volumeData = volumeData, let ohlcData = ohlcData {
+                priceHistory = priceData
+                volumeHistory = volumeData
+                ohlcHistory = ohlcData
+            } else {
+                print("Failed to fetch history data")
+            }
 
+            group.leave()
+        }
+        
         // Notify when all tasks are completed
         group.notify(queue: .main) {
-            if let infoData = infoData, let summary = summary, let recommendations = recommendations, let latestNews = latestNews, let peers = peers, let sentiment = sentiment, let earnings = earnings {
-                let stockDataResponse = StockDataResponse(info: infoData, summary: summary, recommendations: recommendations, latestNews: latestNews, peers: peers, sentiment: sentiment, earnings: earnings)
+            if let infoData = infoData, let summary = summary, let recommendations = recommendations, let latestNews = latestNews, let peers = peers, let sentiment = sentiment, let earnings = earnings, let priceHistory = priceHistory, let volumeHistory = volumeHistory, let ohlcHistory = ohlcHistory {
+                let stockDataResponse = StockDataResponse(info: infoData, summary: summary, recommendations: recommendations, latestNews: latestNews, peers: peers, sentiment: sentiment, earnings: earnings, priceHistory: priceHistory, volumeHistory: volumeHistory, ohlcHistory: ohlcHistory)
                 self.stockDataResponse = stockDataResponse
                 self.holdingStockResponse = stockDataResponse
                 completion(stockDataResponse)
@@ -209,6 +225,30 @@ class StockViewModel: ObservableObject {
             } else {
                 print("Failed to decode earnings data")
                 completion(nil)
+            }
+        }.resume()
+    }
+    
+    private func fetchHistory(forTicker ticker: String, completion: @escaping ([PriceData]?, [VolumeData]?, [OHLCData]?) -> Void) {
+        guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/history") else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch info data: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            if let historyResponse = try? JSONDecoder().decode(HistoryAPIResponse.self, from: data) {
+                
+                print(historyResponse)
+                let priceHistoryData = historyResponse.data.results.map {  PriceData(timestamp: $0.timestamp, price: $0.close) }
+                let volumeHistoryData = historyResponse.data.results.map { VolumeData(timestamp: $0.timestamp, volume: $0.volume) }
+                let ohlcData = historyResponse.data.results.map { OHLCData(timestamp: $0.timestamp, open: $0.open, close: $0.close, high: $0.high, low: $0.low) }
+
+                completion(priceHistoryData, volumeHistoryData, ohlcData)
+            } else {
+                print("Failed to decode history data")
+                completion(nil, nil, nil)
             }
         }.resume()
     }
