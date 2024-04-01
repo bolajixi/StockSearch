@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct PortfolioStock: Codable, Identifiable {
     var id: String

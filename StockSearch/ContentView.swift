@@ -8,13 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = StockViewModel()
+    let ticker = "META"
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Ticker: \(viewModel.stockDataResponse?.info.ticker ?? "")")
+            
+            Button("Fetch Data") {
+                viewModel.fetchData(forTicker: ticker) { stockDataResponse in
+                    if let stockDataResponse = stockDataResponse {
+                        print(stockDataResponse)
+                    } else {
+                        print("Failed to fetch data")
+                    }
+                }
+            }
         }
+//        .onAppear {
+//            viewModel.fetchData(forTicker: ticker)
+//        }
         .padding()
     }
 }

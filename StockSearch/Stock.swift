@@ -9,8 +9,7 @@ import Foundation
 import SwiftUI
 
 // App Reponse Format Type --------------------------------------------
-struct RecommendationData: Codable, Identifiable {
-    var id = UUID()
+struct RecommendationData: Codable {
     var buy: Int
     var hold: Int
     var period: String
@@ -41,8 +40,7 @@ struct OHLCData: Codable, Identifiable {
     var timestamp: Int
 }
 
-struct NewsItem: Codable, Identifiable {
-    var id: Int
+struct NewsItem: Codable {
     var category: String
     var datetime: String
     var headline: String
@@ -53,8 +51,7 @@ struct NewsItem: Codable, Identifiable {
     var url: String
 }
 
-struct SentimentData: Codable, Identifiable {
-    var id = UUID()
+struct SentimentData: Codable {
     var symbol: String
     var year: Int
     var month: Int
@@ -62,8 +59,7 @@ struct SentimentData: Codable, Identifiable {
     var mspr: Double
 }
 
-struct EarningsData: Codable, Identifiable {
-    var id = UUID()
+struct EarningsData: Codable {
     var actual: Double
     var estimate: Double
     var period: String
@@ -73,10 +69,56 @@ struct EarningsData: Codable, Identifiable {
     var symbol: String
     var year: Int
 }
-// ----------------------------------------------------------------------
 
-struct Info: Identifiable {
-    var id = UUID()
+// API Responses: START --------------------------------------------
+
+struct InfoAPIResponse: Codable {
+    let success: Bool
+    let data: Info
+}
+
+struct SummaryAPIResponse: Codable {
+    let success: Bool
+    let data: Summary
+}
+
+struct RecommendationAPIResponse: Codable {
+    let success: Bool
+    let data: [RecommendationData]
+}
+
+struct LatestNewsAPIResponse: Codable  {
+    let success: Bool
+    var data: [NewsItem]
+}
+
+struct HistoryAPIResponse: Codable  {
+    let success: Bool
+    var data: [NewsItem]
+}
+
+struct PeersAPIResponse: Codable {
+    let success: Bool
+    var data: [String]
+}
+
+struct SentimentAPIResponse: Codable {
+    let success: Bool
+    let data: SentimentDataContainer
+}
+
+struct SentimentDataContainer: Codable {
+    let data: [SentimentData]
+    let symbol: String
+}
+struct EarningsAPIResponse: Codable {
+    let success: Bool
+    var data: [EarningsData]
+}
+
+// API Responses: END ----------------------------------------------
+
+struct Info: Codable {
     var country: String
     var currency: String
     var estimateCurrency: String
@@ -89,23 +131,18 @@ struct Info: Identifiable {
     var phone: String
     var shareOutstanding: Double
     var ticker: String
-    var webURL: String
+    var weburl: String
 }
 
-struct Summary: Identifiable {
-    var id = UUID()
-    var currentPrice: Double
-    var priceChange: Double
-    var priceChangePercentage: Double
-    var high: Double
-    var low: Double
-    var open: Double
-    var previousClose: Double
-    var timestamp: String
-}
-
-struct Recommendation: Codable {
-    var data: [RecommendationData]
+struct Summary: Codable {
+    var c: Double
+    var d: Double
+    var dp: Double
+    var h: Double
+    var l: Double
+    var o: Double
+    var pc: Double
+    var t: String
 }
 
 struct TwoYearPriceHistory: Identifiable  {
@@ -123,46 +160,26 @@ struct TwoYearOHLCHistory: Identifiable  {
     var data: [OHLCData]
 }
 
-struct LatestNews: Identifiable  {
-    var id = UUID()
-    var data: [NewsItem]
-}
-
-struct Peers: Identifiable {
-    var id = UUID()
-    var data: [String]
-}
-
-struct Sentiment: Identifiable  {
-    var id = UUID()
-    var data: [SentimentData]
-}
-
-struct Earnings: Codable {
-    var id = UUID()
-    var data: [EarningsData]
-}
-
-struct Watchlist: Identifiable  {
-    var id = UUID()
-}
-
-struct Portfolio: Identifiable  {
-    var id = UUID()
-}
+//struct Watchlist: Identifiable  {
+//    var id = UUID()
+//}
+//
+//struct Portfolio: Identifiable  {
+//    var id = UUID()
+//}
 
 // Combine response model
 struct StockDataResponse {
-    let info: Info
-    let summary: Summary
-    let recommendations: Recommendation
-    let priceHistory: TwoYearPriceHistory
-    let volumeHistory: TwoYearVolumeHistory
-    let ohlcHistory: TwoYearOHLCHistory
-    let latestNews: LatestNews
-    let peers: Peers
-    let sentiment: Sentiment
-    let earnings: Earnings
-//    let watchlist: Watchlist
-//    let portfolio: Portfolio
+    var info: Info
+    var summary: Summary
+    var recommendations: [RecommendationData]
+    var latestNews: [NewsItem]
+    var peers: [String]
+    var sentiment: [SentimentData]
+    var earnings: [EarningsData]
+//    var priceHistory: TwoYearPriceHistory
+//    var volumeHistory: TwoYearVolumeHistory
+//    var ohlcHistory: TwoYearOHLCHistory
+//    var watchlist: Watchlist
+//    var portfolio: Portfolio
 }
