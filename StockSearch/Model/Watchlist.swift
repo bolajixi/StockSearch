@@ -8,13 +8,20 @@
 import Foundation
 import SwiftUI
 
-struct WatchlistStock: Codable, Identifiable {
-    var id = UUID()
+struct WatchlistStock: Codable {
     var ticker: String
     var companyName: String
     var currentPrice: Double
     var priceChange: Double
     var priceChangePercentage: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case ticker = "ticker"
+        case companyName = "companyName"
+        case currentPrice = "c"
+        case priceChange = "d"
+        case priceChangePercentage = "dp"
+    }
 }
 
 struct Watchlist: Codable {

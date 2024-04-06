@@ -8,20 +8,20 @@
 import Foundation
 import SwiftUI
 
-struct PortfolioStock: Codable, Identifiable {
-    var id: String
+struct PortfolioStock: Codable {
     var symbol: String
     var companyName: String
     var quantity: Int
     var totalPurchaseCost: Double
     var purchaseHistory: [PurchaseHistory]
+    var _id: String
     var purchaseDate: String
 }
 
 struct PurchaseHistory: Codable {
     var quantity: Int
     var purchasePrice: Double
-    var id: String
+    var _id: String
 }
 
 struct Portfolio: Codable {
