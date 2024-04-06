@@ -20,6 +20,8 @@ struct PortfolioListItemView: View {
                 Text(ticker)
                     .fontWeight(.bold)
                 Text("\(quantity) shares")
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.gray.opacity(0.6))
             }
             
             Spacer()

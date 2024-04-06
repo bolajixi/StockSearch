@@ -20,6 +20,8 @@ struct WatchlistListItemView: View {
                 Text(ticker)
                     .fontWeight(.bold)
                 Text(companyName)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.gray.opacity(0.6))
             }
             
             Spacer()
