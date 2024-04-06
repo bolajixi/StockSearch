@@ -36,3 +36,17 @@ struct PortfolioAPIResponse: Codable {
     let success: Bool
     let data: [Portfolio]
 }
+
+struct stockBuyAPIResponse: Codable {
+    let success: Bool
+    let data: dataContainer
+}
+
+struct stockSellAPIResponse: Codable {
+    let success: Bool
+    let data: dataContainer
+}
+
+struct dataContainer: Codable {
+    let message: String
+}

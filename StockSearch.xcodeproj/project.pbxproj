@@ -108,9 +108,7 @@
 			children = (
 				0FEA65312BBA099500576B22 /* StockSearchApp.swift */,
 				0FEA65332BBA099500576B22 /* HomeView.swift */,
-				0FF8C3AC2BBA18BF008480B7 /* StockViewModel.swift */,
-				0FF8C3B22BBA9AED008480B7 /* WatchlistViewModel.swift */,
-				0FF8C3B42BBA9B00008480B7 /* PortfolioViewModel.swift */,
+				0FFC81F62BC0F7F700783BCD /* ViewModel */,
 				0FF8C3B62BBAB386008480B7 /* Model */,
 				0FEA65352BBA099700576B22 /* Assets.xcassets */,
 				0FEA65372BBA099700576B22 /* Preview Content */,
@@ -151,6 +149,16 @@
 				0FF8C3B02BBA2FF0008480B7 /* Portfolio.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0FFC81F62BC0F7F700783BCD /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0FF8C3AC2BBA18BF008480B7 /* StockViewModel.swift */,
+				0FF8C3B22BBA9AED008480B7 /* WatchlistViewModel.swift */,
+				0FF8C3B42BBA9B00008480B7 /* PortfolioViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

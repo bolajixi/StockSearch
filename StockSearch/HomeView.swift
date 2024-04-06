@@ -14,6 +14,9 @@ struct HomeView: View {
     
     let ticker = "META"
     let companyName = "Meta Platforms Inc"
+    let quantity = 2
+    let purchasePrice = 169.58
+    let sellPrice = 169.58
     
     var body: some View {
         VStack {
@@ -69,6 +72,26 @@ struct HomeView: View {
                         print(portfolioViewModel.portfolio!)
                     } else {
                         print("Failed to fetch portfolio")
+                    }
+                }
+            }
+            
+            Button("Buy Stock") {
+                portfolioViewModel.buyStock(stock: ticker, companyName: companyName, quantity: quantity, purchasePrice: purchasePrice) { success in
+                    if success {
+                        print("Successfully bought stock")
+                    } else {
+                        print("Failed to buy stock")
+                    }
+                }
+            }
+            
+            Button("Sell Stock") {
+                portfolioViewModel.sellStock(stock: ticker, quantity: quantity, sellPrice: sellPrice) { success in
+                    if success {
+                        print("Successfully sold stock")
+                    } else {
+                        print("Failed to sell stock")
                     }
                 }
             }
