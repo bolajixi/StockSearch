@@ -203,15 +203,25 @@ struct EarningsAPIResponse: Codable {
     var data: [EarningsData]
 }
 
+struct AutoCompleteAPIResponse: Codable {
+    let success: Bool
+    var data: AutoCompleteDataContainer
+}
+
+struct AutoCompleteDataContainer: Codable {
+    let count: Int
+    let result: [AutoCompleteResult]
+}
+
+struct AutoCompleteResult: Codable {
+    var description: String
+    var displaySymbol: String
+    var symbol: String
+    var type: String
+}
+
 // API Responses: END ----------------------------------------------
 
-//struct Watchlist: Identifiable  {
-//    var id = UUID()
-//}
-//
-//struct Portfolio: Identifiable  {
-//    var id = UUID()
-//}
 
 // Combine response model
 struct StockDataResponse {
@@ -225,6 +235,4 @@ struct StockDataResponse {
     var priceHistory: [PriceData]
     var volumeHistory: [VolumeData]
     var ohlcHistory: [OHLCData]
-//    var watchlist: Watchlist
-//    var portfolio: Portfolio
 }

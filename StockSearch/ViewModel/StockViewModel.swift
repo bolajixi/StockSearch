@@ -6,18 +6,65 @@
 //
 
 import Foundation
+import Combine
 
 //let baseURL: String = "https://csci-571-hw3-backend.wl.r.appspot.com"
 let baseURL: String = "http://127.0.0.1:3000"
 
 class StockViewModel: ObservableObject {
     public var holdingStockResponse: StockDataResponse?
+    @Published var searchTerm: String = ""
     
     @Published var stockDataResponse: StockDataResponse?
-    
     @Published var dataIsAvailable: Bool = false
     @Published var stockNotFound: Bool = false
-//    @Published var error: Error?
+    
+    @Published var autocompleteData: [AutoCompleteResult]?
+    
+    var subscriptions = Set<AnyCancellable>()
+    
+    init() {
+        
+        $searchTerm
+            .removeDuplicates()
+            .dropFirst()
+            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+            .sink { [weak self] term in
+                self?.clear()
+                self?.fetchAutoComplete(forSearchTerm: term) { success in
+                    if success {
+                        print("Auto fetch is good")
+                    } else {
+                        print("Auto fetch failed")
+                    }
+                }
+            }.store(in: &subscriptions)
+    }
+    
+    func clear() {
+        dataIsAvailable = false
+        stockDataResponse = nil
+        autocompleteData = []
+    }
+    
+    func fetchAutoComplete(forSearchTerm term: String, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: "\(baseURL)/api/v1/search?q=\(term.lowercased())") else { return }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch autocomplete data:", error?.localizedDescription ?? "Unknown error")
+                return
+            }
+            
+            if let autocompleteResponse = try? JSONDecoder().decode(AutoCompleteAPIResponse.self, from: data) {
+                self.autocompleteData = autocompleteResponse.data.result
+                completion(true)
+            } else {
+                print("Failed to decode autocomplete data")
+                completion(false)
+            }
+        }.resume()
+    }
 
     func fetchData(forTicker ticker: String, completion: @escaping (StockDataResponse?) -> Void) {
         var infoData: Info?
