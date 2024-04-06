@@ -37,8 +37,8 @@ struct HomeView: View {
                 
                 Section {
                     PortfolioDetailsView(netWorth: 25001.51, cashBalance: 14101.04)
-                    PortfolioListItemView(ticker: "AAPL", quantity: 3, totalPurchaseCosr: 517.90, change: 0.19, percentageChange: 0.04)
-                    PortfolioListItemView(ticker: "NVDA", quantity: 11, totalPurchaseCosr: 10382.57, change: 1.32, percentageChange: 0.01)
+                    PortfolioListItemView(ticker: "AAPL", quantity: 3, totalPurchaseCost: 517.90, change: 0.19, percentageChange: 0.04)
+                    PortfolioListItemView(ticker: "NVDA", quantity: 11, totalPurchaseCost: 10382.57, change: 1.32, percentageChange: 0.01)
                 } header: {
                     Text("Portfolio")
                 }
