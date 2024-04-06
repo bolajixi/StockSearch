@@ -36,24 +36,18 @@ struct HomeView: View {
                     .padding(.horizontal, 8)
                 
                 Section {
-                    PortfolioDetailsView()
-                    Text("Data 1")
-                    Text("Data 2")
-                    Text("Data 3")
-                    Text("Data 4")
-                    Text("Data 5")
+                    PortfolioDetailsView(netWorth: 25001.51, cashBalance: 14101.04)
+                    PortfolioListItemView(ticker: "AAPL", quantity: 3, totalPurchaseCosr: 517.90, change: 0.19, percentageChange: 0.04)
+                    PortfolioListItemView(ticker: "NVDA", quantity: 11, totalPurchaseCosr: 10382.57, change: 1.32, percentageChange: 0.01)
                 } header: {
                     Text("Portfolio")
                 }
                 
                 Section {
-                    Text("Data 1")
-                    Text("Data 2")
-                    Text("Data 3")
-                    Text("Data 4")
-                    Text("Data 5")
+                    WatchlistListItemView(ticker: "AAPL", companyName: "Apple Inc", currentPrice: 172.63, change: 1.26, percentageChange: 0.74)
+                    WatchlistListItemView(ticker: "QCOM", companyName: "Qualcomm Inc", currentPrice: 171.26, change: 0.41, percentageChange: 0.24)
                 } header: {
-                    Text("Watchlist")
+                    Text("Favorites")
                 }
                 
                 Button(action: {
@@ -68,78 +62,12 @@ struct HomeView: View {
             }
             .searchable(text: $searchTerm)
             .navigationTitle("Stocks")
+            .navigationBarItems(trailing: EditButton())
         }
-//
-//            Button("Fetch Stock Data") {
-//                stockViewModel.fetchData(forTicker: ticker) { stockDataResponse in
-//                    if stockDataResponse != nil {
-//                        print(stockViewModel.stockDataResponse!)
-//                    } else {
-//                        print("Failed to fetch data")
-//                    }
-//                }
-//            }
-//            Button("Fetch Watchlist") {
-//                watchlistViewModel.fetchWatchlist { watchlist in
-//                    if watchlist != nil {
-//                        print(watchlistViewModel.watchlist!)
-//                    } else {
-//                        print("Failed to fetch watchlist")
-//                    }
-//                }
-//            }
-//            
-//            Button("Add to Watchlist") {
-//                watchlistViewModel.addToWatchlist(stock: ticker, companyName: companyName) { success in
-//                    if success {
-//                        print("Successfully added to watchlist")
-//                        print(watchlistViewModel.watchlist!)
-//                    } else {
-//                        print("Failed to add to watchlist")
-//                    }
-//                }
-//            }
-//            
-//            Button("Remove from Watchlist") {
-//                watchlistViewModel.removeFromWatchlist(stock: ticker, companyName: companyName) { success in
-//                    if success {
-//                        print("Successfully removed to watchlist")
-//                        print(watchlistViewModel.watchlist!)
-//                    } else {
-//                        print("Failed to add to watchlist")
-//                    }
-//                }
-//            }
-//            
-//            Button("Fetch Portfolio") {
-//                portfolioViewModel.fetchPortfolio { portfolio in
-//                    if portfolio != nil {
-//                        print(portfolioViewModel.portfolio!)
-//                    } else {
-//                        print("Failed to fetch portfolio")
-//                    }
-//                }
-//            }
-//            
-//            Button("Buy Stock") {
-//                portfolioViewModel.buyStock(stock: ticker, companyName: companyName, quantity: quantity, purchasePrice: purchasePrice) { success in
-//                    if success {
-//                        print("Successfully bought stock")
-//                    } else {
-//                        print("Failed to buy stock")
-//                    }
-//                }
-//            }
-//            
-//            Button("Sell Stock") {
-//                portfolioViewModel.sellStock(stock: ticker, quantity: quantity, sellPrice: sellPrice) { success in
-//                    if success {
-//                        print("Successfully sold stock")
-//                    } else {
-//                        print("Failed to sell stock")
-//                    }
-//                }
-//            }
+    }
+    
+    func removeFavorite(indecSet: IndexSet){
+        
     }
 }
 
