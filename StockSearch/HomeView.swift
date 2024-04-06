@@ -27,7 +27,7 @@ struct HomeView: View {
             
             Button("Fetch Stock Data") {
                 stockViewModel.fetchData(forTicker: ticker) { stockDataResponse in
-                    if let stockDataResponse = stockDataResponse {
+                    if stockDataResponse != nil {
                         print(stockViewModel.stockDataResponse!)
                     } else {
                         print("Failed to fetch data")
@@ -36,7 +36,7 @@ struct HomeView: View {
             }
             Button("Fetch Watchlist") {
                 watchlistViewModel.fetchWatchlist { watchlist in
-                    if let watchlist = watchlist {
+                    if watchlist != nil {
                         print(watchlistViewModel.watchlist!)
                     } else {
                         print("Failed to fetch watchlist")
@@ -68,7 +68,7 @@ struct HomeView: View {
             
             Button("Fetch Portfolio") {
                 portfolioViewModel.fetchPortfolio { portfolio in
-                    if let portfolio = portfolio {
+                    if portfolio != nil {
                         print(portfolioViewModel.portfolio!)
                     } else {
                         print("Failed to fetch portfolio")

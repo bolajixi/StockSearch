@@ -10,6 +10,16 @@ import Foundation
 class WatchlistViewModel: ObservableObject {
     @Published var watchlist: Watchlist?
     
+    init() {
+        fetchWatchlist { watchlist in
+            if watchlist != nil {
+                print("Watchlist Fetched:", self.watchlist!)
+            } else {
+                print("Failed to fetch watchlist")
+            }
+        }
+    }
+    
     func fetchWatchlist(completion: @escaping (Watchlist?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/watchlist") else { return }
 

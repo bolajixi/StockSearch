@@ -10,6 +10,16 @@ import Foundation
 class PortfolioViewModel: ObservableObject {
     @Published var portfolio: Portfolio?
     
+    init() {
+        fetchPortfolio { portfolio in
+            if portfolio != nil {
+                print("Portfolio Fetched:", self.portfolio!)
+            } else {
+                print("Failed to fetch portfolio")
+            }
+        }
+    }
+    
     func fetchPortfolio(completion: @escaping (Portfolio?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/portfolio") else { return }
 
