@@ -28,6 +28,7 @@ struct PortfolioListItemView: View {
             
             VStack(alignment: .trailing) {
                 Text("$\(String(format: "%.2f", totalPurchaseCost))")
+                    .fontWeight(.bold)
                 HStack {
                     Text("$\(String(format: "%.2f", change))")
                     Text("(\(String(format: "%.2f", percentageChange))%)")
