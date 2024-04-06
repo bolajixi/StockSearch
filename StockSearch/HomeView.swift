@@ -13,6 +13,7 @@ struct HomeView: View {
     @StateObject var portfolioViewModel = PortfolioViewModel()
     
     let ticker = "META"
+    let companyName = "Meta Platforms Inc"
     
     var body: some View {
         VStack {
@@ -36,6 +37,28 @@ struct HomeView: View {
                         print(watchlistViewModel.watchlist!)
                     } else {
                         print("Failed to fetch watchlist")
+                    }
+                }
+            }
+            
+            Button("Add to Watchlist") {
+                watchlistViewModel.addToWatchlist(stock: ticker, companyName: companyName) { success in
+                    if success {
+                        print("Successfully added to watchlist")
+                        print(watchlistViewModel.watchlist!)
+                    } else {
+                        print("Failed to add to watchlist")
+                    }
+                }
+            }
+            
+            Button("Remove from Watchlist") {
+                watchlistViewModel.removeFromWatchlist(stock: ticker, companyName: companyName) { success in
+                    if success {
+                        print("Successfully removed to watchlist")
+                        print(watchlistViewModel.watchlist!)
+                    } else {
+                        print("Failed to add to watchlist")
                     }
                 }
             }
