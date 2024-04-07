@@ -43,6 +43,7 @@ struct HomeView: View {
                         ForEach(portfolio.stocks) { stock in
                             PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, totalPurchaseCost: stock.totalPurchaseCost, change: 0.19, percentageChange: 0.04)
                         }
+                        .onMove(perform: moveItemPortfolio)
                     } else {
                         Text("Loading portfolio...")
                     }
@@ -56,6 +57,8 @@ struct HomeView: View {
                         ForEach(watchlist.stocks) { stock in
                             WatchlistListItemView(ticker: stock.ticker, companyName: stock.companyName, currentPrice: stock.currentPrice, change: stock.priceChange, percentageChange: stock.priceChangePercentage)
                         }
+                        .onDelete(perform: removeFavorite)
+                        .onMove(perform: moveItemWatchlist)
                     } else {
                         Text("Loading watchlist...")
                     }
@@ -81,6 +84,14 @@ struct HomeView: View {
     
     func removeFavorite(indecSet: IndexSet){
         
+    }
+    
+    func moveItemWatchlist(from: IndexSet, to: Int){
+        watchlistViewModel.watchlist?.stocks.move(fromOffsets: from, toOffset: to)
+    }
+    
+    func moveItemPortfolio(from: IndexSet, to: Int){
+        portfolioViewModel.portfolio?.stocks.move(fromOffsets: from, toOffset: to)
     }
 }
 
