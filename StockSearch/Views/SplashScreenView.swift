@@ -16,9 +16,10 @@ struct SplashScreenView: View {
             HomeView()
         } else {
             VStack {
-                Image(systemName: "hare.fill")
-                    .font(.system(size: 80))
-                    .foregroundColor(.red)
+                Image("AppIcon_512")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 290, height: 290) 
             }
             .onAppear{
                 DispatchQueue.main.asyncAfter(deadline: .now() + splashScreenDuration) {
