@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashScreenView: View {
     @State private var isActive = false
-    let splashScreenDuration = 3.0
+    let splashScreenDuration = 4.5
     
     var body: some View {
         if isActive {

@@ -67,7 +67,7 @@ class PortfolioViewModel: ObservableObject {
                 return
             }
             
-            if let apiResponse = try? JSONDecoder().decode(stockBuyAPIResponse.self, from: data) {
+            if (try? JSONDecoder().decode(stockBuyAPIResponse.self, from: data)) != nil {
                 self.fetchPortfolio(completion: { portfolio in
                     if portfolio != nil {
                         completion(true)
@@ -109,7 +109,7 @@ class PortfolioViewModel: ObservableObject {
                 return
             }
             
-            if let apiResponse = try? JSONDecoder().decode(stockSellAPIResponse.self, from: data) {
+            if (try? JSONDecoder().decode(stockSellAPIResponse.self, from: data)) != nil {
                 self.fetchPortfolio(completion: { portfolio in
                     if portfolio != nil {
                         completion(true)
