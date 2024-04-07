@@ -82,8 +82,20 @@ struct HomeView: View {
         }
     }
     
-    func removeFavorite(indecSet: IndexSet){
+    func removeFavorite(at offsets: IndexSet){
+        guard let watchlist = watchlistViewModel.watchlist else { return }
+            
+        let symbolsToDelete = offsets.map { watchlist.stocks[$0].ticker }
         
+        for symbol in symbolsToDelete {
+            watchlistViewModel.removeFromWatchlist(stock: symbol.lowercased()) { success in
+                if success {
+                    print("\(symbol.uppercased()) removed from watchlist")
+                } else {
+                    print("Error  removing \(symbol.uppercased()) from watchlist")
+                }
+            }
+        }
     }
     
     func moveItemWatchlist(from: IndexSet, to: Int){

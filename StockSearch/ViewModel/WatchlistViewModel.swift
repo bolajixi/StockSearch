@@ -76,12 +76,11 @@ class WatchlistViewModel: ObservableObject {
         }.resume()
     }
     
-    func removeFromWatchlist(stock: String, companyName: String, completion: @escaping (Bool) -> Void) {
+    func removeFromWatchlist(stock: String, completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/watchlist") else { return }
         
         let requestBody: [String: Any] = [
-            "ticker": stock,
-            "companyName": companyName
+            "ticker": stock
         ]
         
         var request = URLRequest(url: url)
