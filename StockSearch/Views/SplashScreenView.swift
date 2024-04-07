@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SplashScreenView: View {
+struct SplashScreenView: View {    
     @State private var isActive = false
     let splashScreenDuration = 4.5
     
@@ -34,4 +34,7 @@ struct SplashScreenView: View {
 
 #Preview {
     SplashScreenView()
+        .environmentObject(StockViewModel())
+        .environmentObject(WatchlistViewModel())
+        .environmentObject(PortfolioViewModel())
 }

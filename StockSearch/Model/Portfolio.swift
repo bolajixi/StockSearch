@@ -8,7 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct PortfolioStock: Codable {
+import Foundation
+
+struct PortfolioStock: Codable, Identifiable {
+    var id = UUID()
+    
     var symbol: String
     var companyName: String
     var quantity: Int
@@ -16,6 +20,16 @@ struct PortfolioStock: Codable {
     var purchaseHistory: [PurchaseHistory]
     var _id: String
     var purchaseDate: String
+    
+    enum CodingKeys: String, CodingKey {
+        case symbol
+        case companyName
+        case quantity
+        case totalPurchaseCost
+        case purchaseHistory
+        case _id
+        case purchaseDate
+    }
 }
 
 struct PurchaseHistory: Codable {

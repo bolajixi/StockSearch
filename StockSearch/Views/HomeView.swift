@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var stockViewModel = StockViewModel()
-    @StateObject var watchlistViewModel = WatchlistViewModel()
-    @StateObject var portfolioViewModel = PortfolioViewModel()
+    @EnvironmentObject var stockViewModel: StockViewModel
+    @EnvironmentObject var watchlistViewModel: WatchlistViewModel
+    @EnvironmentObject var portfolioViewModel: PortfolioViewModel
+
     let ticker = "META"
     let companyName = "Meta Platforms Inc"
     let quantity = 2
@@ -36,16 +37,28 @@ struct HomeView: View {
                     .padding(.horizontal, 8)
                 
                 Section {
-                    PortfolioDetailsView(netWorth: 25001.51, cashBalance: 14101.04)
-                    PortfolioListItemView(ticker: "AAPL", quantity: 3, totalPurchaseCost: 517.90, change: 0.19, percentageChange: 0.04)
-                    PortfolioListItemView(ticker: "NVDA", quantity: 11, totalPurchaseCost: 10382.57, change: 1.32, percentageChange: 0.01)
+                    if let portfolio = portfolioViewModel.portfolio {
+                        PortfolioDetailsView(netWorth: portfolioViewModel.netWorth, cashBalance:portfolio.availableBalance)
+                        
+                        ForEach(portfolio.stocks) { stock in
+                            PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, totalPurchaseCost: stock.totalPurchaseCost, change: 0.19, percentageChange: 0.04)
+                        }
+                    } else {
+                        Text("Loading portfolio...")
+                    }
                 } header: {
                     Text("Portfolio")
                 }
                 
                 Section {
-                    WatchlistListItemView(ticker: "AAPL", companyName: "Apple Inc", currentPrice: 172.63, change: 1.26, percentageChange: 0.74)
-                    WatchlistListItemView(ticker: "QCOM", companyName: "Qualcomm Inc", currentPrice: 171.26, change: 0.41, percentageChange: 0.24)
+                    if let watchlist = watchlistViewModel.watchlist {
+                        
+                        ForEach(watchlist.stocks) { stock in
+                            WatchlistListItemView(ticker: stock.ticker, companyName: stock.companyName, currentPrice: stock.currentPrice, change: stock.priceChange, percentageChange: stock.priceChangePercentage)
+                        }
+                    } else {
+                        Text("Loading watchlist...")
+                    }
                 } header: {
                     Text("Favorites")
                 }
@@ -73,4 +86,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(StockViewModel())
+        .environmentObject(WatchlistViewModel())
+        .environmentObject(PortfolioViewModel())
 }

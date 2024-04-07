@@ -8,7 +8,9 @@
 import Foundation
 import SwiftUI
 
-struct WatchlistStock: Codable {
+struct WatchlistStock: Codable, Identifiable {
+    var id = UUID()
+    
     var ticker: String
     var companyName: String
     var currentPrice: Double

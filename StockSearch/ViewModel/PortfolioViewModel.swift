@@ -9,6 +9,16 @@ import Foundation
 
 class PortfolioViewModel: ObservableObject {
     @Published var portfolio: Portfolio?
+    var netWorth: Double {
+        guard let portfolio = portfolio else { return 0 }
+        
+        var totalNetWorth = portfolio.availableBalance
+        for stock in portfolio.stocks {
+            totalNetWorth += stock.totalPurchaseCost
+        }
+        
+        return totalNetWorth
+    }
     
     init() {
         fetchPortfolio { portfolio in

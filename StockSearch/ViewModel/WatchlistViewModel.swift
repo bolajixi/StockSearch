@@ -25,7 +25,7 @@ class WatchlistViewModel: ObservableObject {
 
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
-                print("Failed to fetch portfolio data:", error?.localizedDescription ?? "Unknown error")
+                print("Failed to fetch watchlist data:", error?.localizedDescription ?? "Unknown error")
                 return
             }
             
