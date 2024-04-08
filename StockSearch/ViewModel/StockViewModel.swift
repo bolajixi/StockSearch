@@ -67,6 +67,7 @@ class StockViewModel: ObservableObject {
 
     func fetchData(forTicker ticker: String, completion: @escaping (StockDataResponse?) -> Void) {
         isLoading = true
+        stockDataResponse = nil
         
         var infoData: Info?
         var summary: Summary?
