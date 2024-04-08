@@ -16,7 +16,7 @@ class StockViewModel: ObservableObject {
     @Published var searchTerm: String = ""
     
     @Published var stockDataResponse: StockDataResponse?
-    @Published var dataIsAvailable: Bool = false
+    @Published var isLoading = false
     @Published var stockNotFound: Bool = false
     
     @Published var autocompleteData: [AutoCompleteResult]?
@@ -42,7 +42,6 @@ class StockViewModel: ObservableObject {
     }
     
     func clear() {
-        dataIsAvailable = false
         stockDataResponse = nil
         autocompleteData = []
     }
@@ -67,6 +66,8 @@ class StockViewModel: ObservableObject {
     }
 
     func fetchData(forTicker ticker: String, completion: @escaping (StockDataResponse?) -> Void) {
+        isLoading = true
+        
         var infoData: Info?
         var summary: Summary?
         var recommendations: [RecommendationData]?
@@ -141,6 +142,9 @@ class StockViewModel: ObservableObject {
                 let stockDataResponse = StockDataResponse(info: infoData, summary: summary, recommendations: recommendations, latestNews: latestNews, peers: peers, sentiment: sentiment, earnings: earnings, priceHistory: priceHistory, volumeHistory: volumeHistory, ohlcHistory: ohlcHistory)
                 self.stockDataResponse = stockDataResponse
                 self.holdingStockResponse = stockDataResponse
+                
+                self.isLoading = false
+                
                 completion(stockDataResponse)
             } else {
                 completion(nil)

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var stockViewModel: StockViewModel
     @EnvironmentObject var watchlistViewModel: WatchlistViewModel
     @EnvironmentObject var portfolioViewModel: PortfolioViewModel
 
