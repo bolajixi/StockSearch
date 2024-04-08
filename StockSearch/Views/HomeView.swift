@@ -40,11 +40,13 @@ struct HomeView: View {
                         PortfolioDetailsView(netWorth: portfolioViewModel.netWorth, cashBalance:portfolio.availableBalance)
                         
                         ForEach(portfolio.stocks) { stock in
-                            PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, totalPurchaseCost: stock.totalPurchaseCost, change: 0.19, percentageChange: 0.04)
+                            NavigationLink(destination: StockDetailsView(ticker: stock.symbol.lowercased())) {
+                                PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, totalPurchaseCost: stock.totalPurchaseCost, change: 0.19, percentageChange: 0.04)
+                            }
                         }
                         .onMove(perform: moveItemPortfolio)
                     } else {
-                        Text("Loading portfolio...")
+                        ProgressView()
                     }
                 } header: {
                     Text("Portfolio")
@@ -54,12 +56,14 @@ struct HomeView: View {
                     if let watchlist = watchlistViewModel.watchlist {
                         
                         ForEach(watchlist.stocks) { stock in
-                            WatchlistListItemView(ticker: stock.ticker, companyName: stock.companyName, currentPrice: stock.currentPrice, change: stock.priceChange, percentageChange: stock.priceChangePercentage)
+                            NavigationLink(destination: StockDetailsView(ticker: stock.ticker.lowercased())) {
+                                WatchlistListItemView(ticker: stock.ticker, companyName: stock.companyName, currentPrice: stock.currentPrice, change: stock.priceChange, percentageChange: stock.priceChangePercentage)
+                            }
                         }
                         .onDelete(perform: removeFavorite)
                         .onMove(perform: moveItemWatchlist)
                     } else {
-                        Text("Loading watchlist...")
+                        ProgressView()
                     }
                 } header: {
                     Text("Favorites")
