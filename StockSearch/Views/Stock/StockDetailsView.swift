@@ -12,6 +12,7 @@ struct StockDetailsView: View {
     
     let ticker: String
     @State private var navigationTitle: String = ""
+    @State private var showTradingView = false
     
     init(ticker: String) {
         self.ticker = ticker
@@ -52,6 +53,7 @@ struct StockDetailsView: View {
                                 Spacer()
                                 
                                 Button(action: {
+                                    showTradingView.toggle()
                                     print("bought stock")
                                 }, label: {
                                     Text("Trade")
@@ -140,6 +142,9 @@ struct StockDetailsView: View {
                             FavoriteToggleButton(ticker: ticker, companyName: stockData.info.name)
                         }
                     }
+                    .sheet(isPresented: $showTradingView) {
+                        PortfolioTradingView(ticker: ticker, companyName: stockData.info.name, currentStockPrice: stockData.summary.current)
+                    }
                 }
             } else {
                 Text("Failed to fetch data for \(ticker)")
@@ -150,7 +155,6 @@ struct StockDetailsView: View {
                 stockViewModel.fetchData(forTicker: ticker) { _ in }
             }
         }
-       
     }
 }
 
@@ -187,4 +191,5 @@ struct FavoriteToggleButton: View {
 
 #Preview {
     StockDetailsView(ticker: "AAPL")
+        .environmentObject(PortfolioViewModel())
 }

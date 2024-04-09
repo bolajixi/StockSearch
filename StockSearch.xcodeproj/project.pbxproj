@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FB0748C2BC5C55A0034DCC4 /* PortfolioTradingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */; };
 		0FB0EC452BC1C94200AA19C3 /* PortfolioListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0EC442BC1C94200AA19C3 /* PortfolioListItemView.swift */; };
 		0FB0EC472BC1CD3E00AA19C3 /* WatchlistListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0EC462BC1CD3E00AA19C3 /* WatchlistListItemView.swift */; };
 		0FB0EC4A2BC1D01F00AA19C3 /* StockDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0EC492BC1D01F00AA19C3 /* StockDetailsView.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingView.swift; sourceTree = "<group>"; };
 		0FB0EC442BC1C94200AA19C3 /* PortfolioListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListItemView.swift; sourceTree = "<group>"; };
 		0FB0EC462BC1CD3E00AA19C3 /* WatchlistListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistListItemView.swift; sourceTree = "<group>"; };
 		0FB0EC492BC1D01F00AA19C3 /* StockDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailsView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 			children = (
 				0FFC81FA2BC130C700783BCD /* PortfolioDetailsView.swift */,
 				0FB0EC442BC1C94200AA19C3 /* PortfolioListItemView.swift */,
+				0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FFC81FB2BC130C700783BCD /* PortfolioDetailsView.swift in Sources */,
+				0FB0748C2BC5C55A0034DCC4 /* PortfolioTradingView.swift in Sources */,
 				0FB0EC4C2BC1D55D00AA19C3 /* SplashScreenView.swift in Sources */,
 				0FF8C3B12BBA2FF0008480B7 /* Portfolio.swift in Sources */,
 				0FB0EC4A2BC1D01F00AA19C3 /* StockDetailsView.swift in Sources */,
