@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct StockDetailsView: View {
-    @EnvironmentObject var stockViewModel: StockViewModel
+    @StateObject var stockViewModel: StockViewModel
     
     let ticker: String
     @State private var navigationTitle: String = ""
+    
+    init(ticker: String) {
+        self.ticker = ticker
+        self._stockViewModel = StateObject(wrappedValue: StockViewModel())
+    }
     
     var body: some View {
         Group {
@@ -101,8 +106,8 @@ struct StockDetailsView: View {
                                     }
                                     .foregroundColor(.blue)
                                     
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack {
+                                    ScrollView(.horizontal,  content: {
+                                        HStack (spacing: 0, content: {
                                             ForEach(stockData.peers, id: \.self) { peer in
                                                 NavigationLink(destination: StockDetailsView(ticker: peer.lowercased())) {
                                                     Text("\(peer), ")
@@ -113,8 +118,8 @@ struct StockDetailsView: View {
                                                 }
 
                                             }
-                                        }
-                                    }
+                                        })
+                                    })
                                     .padding(.init(top: -8, leading: 0, bottom: 0, trailing: 0))
                                 }
                             }
@@ -136,7 +141,9 @@ struct StockDetailsView: View {
                 }
             }
         .onAppear {
-            stockViewModel.fetchData(forTicker: ticker) { _ in }
+            if stockViewModel.stockDataResponse == nil {
+                stockViewModel.fetchData(forTicker: ticker) { _ in }
+            }
         }
        
     }
@@ -144,5 +151,4 @@ struct StockDetailsView: View {
 
 #Preview {
     StockDetailsView(ticker: "AAPL")
-        .environmentObject(StockViewModel())
 }

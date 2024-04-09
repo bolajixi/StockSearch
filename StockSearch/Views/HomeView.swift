@@ -112,7 +112,6 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environmentObject(StockViewModel())
         .environmentObject(WatchlistViewModel())
         .environmentObject(PortfolioViewModel())
 }
