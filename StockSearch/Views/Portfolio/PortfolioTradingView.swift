@@ -16,6 +16,7 @@ struct PortfolioTradingView: View {
     var currentStockPrice: Double
 
     @State private var quantity: Int?
+    @State private var quantityInput = ""
     @State private var calculatedTotalValue: Double = 0.0
     @FocusState private var isTextFieldActive: Bool
     
@@ -46,14 +47,21 @@ struct PortfolioTradingView: View {
             Spacer()
             
             HStack {
-                TextField("0", value: $quantity, formatter: NumberFormatter())
+                TextField("0", text: $quantityInput)
+                    .keyboardType(.numberPad)
                     .font(.system(size: 90))
-                    .frame(width: 160)
+                    .frame(width: 125)
                     .background(Color.clear)
                     .padding(.horizontal, 10)
                     .focused($isTextFieldActive)
-                    .onChange(of: quantity) {
-                        print(quantity!)
+                    .onChange(of: quantityInput) {
+                        self.quantity = Int(quantityInput)
+                        
+                        if let quantity = quantity, quantity > 0 {
+                            self.calculatedTotalValue = currentStockPrice * Double(quantity)
+                        } else {
+                            self.calculatedTotalValue = 0.0
+                        }
                     }
                 
                 Spacer()
