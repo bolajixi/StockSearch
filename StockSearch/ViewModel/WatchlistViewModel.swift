@@ -112,4 +112,12 @@ class WatchlistViewModel: ObservableObject {
         }.resume()
     }
     
+    func checkStockInWatchlist(stock: String) -> Bool {
+        guard let watchlist = watchlist else {
+            return false
+        }
+        
+        return watchlist.stocks.contains { $0.ticker == stock }
+    }
+    
 }

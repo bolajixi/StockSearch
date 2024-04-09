@@ -135,17 +135,49 @@ struct StockDetailsView: View {
                         .padding(.horizontal, 15)
                     }
                     .navigationTitle(navigationTitle)
-                    }
-                } else {
-                    Text("Failed to fetch data for \(ticker)")
+                    .navigationBarItems(trailing: FavoriteToggleButton(ticker: ticker, companyName: stockData.info.name))
                 }
+            } else {
+                Text("Failed to fetch data for \(ticker)")
             }
+        }
         .onAppear {
             if stockViewModel.stockDataResponse == nil {
                 stockViewModel.fetchData(forTicker: ticker) { _ in }
             }
         }
        
+    }
+}
+
+struct FavoriteToggleButton: View {
+    let ticker: String
+    let companyName: String
+    @EnvironmentObject var watchlistViewModel: WatchlistViewModel
+
+    var isStockInWatchlist: Bool {
+        return watchlistViewModel.checkStockInWatchlist(stock: self.ticker.uppercased())
+    }
+    
+    var body: some View {
+        Button(action: {
+            if isStockInWatchlist {
+                watchlistViewModel.removeFromWatchlist(stock: ticker.lowercased()) { success in
+                    if success {
+                        print("Successfully removed to watchlist")
+                    }
+                }
+            } else {
+                watchlistViewModel.addToWatchlist(stock: ticker.lowercased(), companyName: companyName) { success in
+                    if success {
+                        print("Successfully added to watchlist")
+                    }
+                }
+            }
+        }) {
+            Image(systemName: isStockInWatchlist ? "plus.circle.fill" : "plus.circle")
+                .font(.headline)
+        }
     }
 }
 
