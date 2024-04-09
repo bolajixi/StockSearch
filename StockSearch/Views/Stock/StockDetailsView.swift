@@ -16,7 +16,7 @@ struct StockDetailsView: View {
     var body: some View {
         Group {
             if stockViewModel.isLoading {
-                VStack{
+                VStack {
                     ProgressView()
                     Text("Fetching Data...")
                         .foregroundColor(Color.gray)
@@ -24,13 +24,17 @@ struct StockDetailsView: View {
             } else if let stockData = stockViewModel.stockDataResponse {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        Text(stockData.info.name)
-                        
-                        HStack {
-                            Text("$\(String(format: "%.2f", stockData.summary.current))")
-                            Text("$\(String(format: "%.2f", stockData.summary.change))")
-                            Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
+                        VStack(alignment: .leading) {
+                            Text(stockData.info.name)
+                            
+                            HStack {
+                                Text("$\(String(format: "%.2f", stockData.summary.current))")
+                                Text("$\(String(format: "%.2f", stockData.summary.change))")
+                                Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
+                            }
                         }
+                        .padding(.vertical, 15)
+                        .padding(.horizontal, 15)
                         
                         // Portfolio Section
                         VStack(alignment: .leading) {
@@ -40,11 +44,18 @@ struct StockDetailsView: View {
                             HStack{
                                 Text("You have 0 shares of \(ticker.uppercased()).\nStart trading!")
                                 
+                                Spacer()
+                                
                                 Button(action: {
                                     print("bought stock")
                                 }, label: {
                                     Text("Trade")
+                                        .foregroundColor(.white)
+                                        .padding()
                                 })
+                                .frame(width: 120)
+                                .background(Color.green)
+                                .cornerRadius(50)
                             }
                         }
                         .padding(.vertical, 15)
@@ -55,46 +66,68 @@ struct StockDetailsView: View {
                             Text("Stats")
                             
                             HStack{
-                                Text("High Price: $\(String(format: "%.2f", stockData.summary.high))")
-                                Text("Open Price: $\(String(format: "%.2f", stockData.summary.open))")
+                                Text("High Price:   $\(String(format: "%.2f", stockData.summary.high))")
+                                Text("Open Price:   $\(String(format: "%.2f", stockData.summary.open))")
                             }
                             HStack{
-                                Text("Low Price: $\(String(format: "%.2f", stockData.summary.low))")
-                                Text("Prev. Close: $\(String(format: "%.2f", stockData.summary.previousClose))")
+                                Text("Low Price:    $\(String(format: "%.2f", stockData.summary.low))")
+                                Text("Prev. Close:  $\(String(format: "%.2f", stockData.summary.previousClose))")
                             }
                         }
+                        .padding(.vertical, 15)
+                        .padding(.horizontal, 15)
                         
                         // About section
                         VStack(alignment: .leading) {
                             Text("About")
                             
-                            Text("IPO Start Date: \(stockData.info.ipo)")
-                            Text("Industry: \(stockData.info.finnhubIndustry)")
-                            Text("Webpage: \(stockData.info.weburl)")
-                            HStack {
-                                Text("Peers: ")
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack {
-                                        ForEach(stockData.peers, id: \.self) { peer in
-                                            NavigationLink(destination: StockDetailsView(ticker: peer.lowercased())) {
-                                                Text("\(peer), ")
-                                                    .foregroundColor(.blue)
-                                            }
-                                            .onAppear {
-                                                self.navigationTitle = self.ticker.uppercased()
-                                            }
+                            HStack{
+                                VStack(alignment: .leading) {
+                                    Text("IPO Start Date:")
+                                    Text("Industry:")
+                                    Text("Webpage:")
+                                    Text("Company Peers:")
+                                }
+                                
+                                VStack(alignment: .leading) {
+                                    Text("\(stockData.info.ipo)")
+                                    Text("\(stockData.info.finnhubIndustry)")
+                                    Button(action: {
+                                        if let url = URL(string: stockData.info.weburl) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }) {
+                                        Text(stockData.info.weburl)
+                                    }
+                                    .foregroundColor(.blue)
+                                    
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack {
+                                            ForEach(stockData.peers, id: \.self) { peer in
+                                                NavigationLink(destination: StockDetailsView(ticker: peer.lowercased())) {
+                                                    Text("\(peer), ")
+                                                        .foregroundColor(.blue)
+                                                }
+                                                .onAppear {
+                                                    self.navigationTitle = self.ticker.uppercased()
+                                                }
 
+                                            }
                                         }
                                     }
-                                    .padding()
+                                    .padding(.init(top: -8, leading: 0, bottom: 0, trailing: 0))
                                 }
                             }
                         }
+                        .padding(.vertical, 15)
+                        .padding(.horizontal, 15)
                         
                         // Insights Section
                         VStack(alignment: .leading) {
-                            Text("insights")
+                            Text("Insights")
                         }
+                        .padding(.vertical, 15)
+                        .padding(.horizontal, 15)
                     }
                     .navigationTitle(navigationTitle)
                     }
