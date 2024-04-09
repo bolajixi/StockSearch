@@ -235,7 +235,8 @@ class StockViewModel: ObservableObject {
             }
             
             if let peersResponse = try? JSONDecoder().decode(PeersAPIResponse.self, from: data) {
-                completion(peersResponse.data)
+                let filteredPeers = peersResponse.data.filter { !$0.contains(".") }
+                completion(filteredPeers)
             } else {
                 print("Failed to decode peers data")
                 completion(nil)
