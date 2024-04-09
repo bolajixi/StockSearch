@@ -22,8 +22,6 @@ struct PortfolioTradingView: View {
     
     var body: some View {
         VStack {
-//            Color.green // fill with green on buy or sell
-//                .ignoresSafeArea(.all)
             
             HStack(content: {
                 Spacer()
