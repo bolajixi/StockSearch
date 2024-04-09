@@ -135,7 +135,11 @@ struct StockDetailsView: View {
                         .padding(.horizontal, 15)
                     }
                     .navigationTitle(navigationTitle)
-                    .navigationBarItems(trailing: FavoriteToggleButton(ticker: ticker, companyName: stockData.info.name))
+                    .toolbar{
+                        ToolbarItem(placement: .topBarTrailing) {
+                            FavoriteToggleButton(ticker: ticker, companyName: stockData.info.name)
+                        }
+                    }
                 }
             } else {
                 Text("Failed to fetch data for \(ticker)")
