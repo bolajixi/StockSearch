@@ -21,108 +21,120 @@ struct PortfolioTradingView: View {
     @FocusState private var isTextFieldActive: Bool
     
     @State private var isShowingTradingSuccess = false
+    @State private var isShowingPopUp = false
     @State private var actionBinding: String = ""
     
     var body: some View {
-        VStack {
-            if isShowingTradingSuccess {
-                PortfolioTradingSuccessView(action: actionBinding, quantity: quantity ?? 0, ticker: ticker)
-                    .transition(.opacity)
-                    .animation(.default)
-            } else {
-                VStack {
-                    
-                    HStack(content: {
+        ZStack {
+            VStack {
+                if isShowingTradingSuccess {
+                    PortfolioTradingSuccessView(action: actionBinding, quantity: quantity ?? 0, ticker: ticker)
+                        .transition(.opacity)
+                        .animation(.default)
+                } else {
+                    VStack {
+                        
+                        HStack(content: {
+                            Spacer()
+                            
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }, label: {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.gray)
+                                    .font(.headline)
+                                    .padding(10)
+                            })
+                            .frame(width: 30, height: 30)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 10)
+                        })
+                        
+                        Text("Trade \(companyName) shares")
+                            .fontWeight(.bold)
+                        
                         Spacer()
                         
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.gray)
-                                .font(.headline)
-                                .padding(10)
-                        })
-                        .frame(width: 30, height: 30)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 10)
-                    })
-                    
-                    Text("Trade \(companyName) shares")
-                        .fontWeight(.bold)
-                    
-                    Spacer()
-                    
-                    HStack {
-                        TextField("0", text: $quantityInput)
-                            .keyboardType(.numberPad)
-                            .font(.system(size: 90))
-                            .frame(width: 125)
-                            .background(Color.clear)
-                            .padding(.horizontal, 10)
-                            .focused($isTextFieldActive)
-                            .onChange(of: quantityInput) {
-                                self.quantity = Int(quantityInput)
+                        HStack {
+                            TextField("0", text: $quantityInput)
+                                .keyboardType(.numberPad)
+                                .font(.system(size: 90))
+                                .frame(width: 125)
+                                .background(Color.clear)
+                                .padding(.horizontal, 10)
+                                .focused($isTextFieldActive)
+                                .onChange(of: quantityInput) {
+                                    self.quantity = Int(quantityInput)
+                                    
+                                    if let quantity = quantity, quantity > 0 {
+                                        self.calculatedTotalValue = currentStockPrice * Double(quantity)
+                                    } else {
+                                        self.calculatedTotalValue = 0.0
+                                    }
+                                }
+                            
+                            Spacer()
+                            
+                            VStack (alignment: .trailing) {
+                                Text("Share\(quantity ?? 0 > 0 ? "s" : "")")
+                                    .font(.largeTitle)
+                                .padding(.horizontal, 10)
                                 
-                                if let quantity = quantity, quantity > 0 {
-                                    self.calculatedTotalValue = currentStockPrice * Double(quantity)
-                                } else {
-                                    self.calculatedTotalValue = 0.0
+                                Text("x $\(String(format: "%.2f", currentStockPrice))/share = $\(String(format: "%.2f", calculatedTotalValue))")
+                                    .padding(.horizontal, 10)
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        VStack {
+                            if let portfolio = portfolioViewModel.portfolio {
+                                Text("$\(String(format: "%.2f", portfolio.availableBalance)) available to buy \(ticker.uppercased())")
+                                    .foregroundColor(Color.gray.opacity(0.6))
+                                    .font(.subheadline)
+                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                    .padding()
+                                
+                                HStack {
+                                    Spacer()
+                                    tradeButton(action: "Buy",
+                                                portfolioViewModel: portfolioViewModel,
+                                                ticker: ticker.lowercased(),
+                                                companyName: companyName,
+                                                quantity: quantity ?? 0,
+                                                purchasePrice: currentStockPrice,
+                                                isShowingTradingSuccess: $isShowingTradingSuccess,
+                                                isShowingPopUp: $isShowingPopUp,
+                                                actionBinding: $actionBinding
+                                    )
+                                    
+                                    Spacer()
+                                    
+                                    tradeButton(action: "Sell",
+                                                portfolioViewModel: portfolioViewModel,
+                                                ticker: ticker.lowercased(),
+                                                companyName: companyName,
+                                                quantity: quantity ?? 0,
+                                                sellPrice: currentStockPrice,
+                                                isShowingTradingSuccess: $isShowingTradingSuccess,
+                                                isShowingPopUp: $isShowingPopUp,
+                                                actionBinding: $actionBinding
+                                    )
+                                    Spacer()
                                 }
                             }
-                        
-                        Spacer()
-                        
-                        VStack (alignment: .trailing) {
-                            Text("Share\(quantity ?? 0 > 0 ? "s" : "")")
-                                .font(.largeTitle)
-                            .padding(.horizontal, 10)
-                            
-                            Text("x $\(String(format: "%.2f", currentStockPrice))/share = $\(String(format: "%.2f", calculatedTotalValue))")
-                                .padding(.horizontal, 10)
                         }
                     }
-                    
-                    Spacer()
-                    
-                    VStack {
-                        if let portfolio = portfolioViewModel.portfolio {
-                            Text("$\(String(format: "%.2f", portfolio.availableBalance)) available to buy \(ticker.uppercased())")
-                                .foregroundColor(Color.gray.opacity(0.6))
-                                .font(.subheadline)
-                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                .padding()
-                            
-                            HStack {
-                                Spacer()
-                                tradeButton(action: "Buy",
-                                            portfolioViewModel: portfolioViewModel,
-                                            ticker: ticker.lowercased(),
-                                            companyName: companyName,
-                                            quantity: quantity ?? 0,
-                                            purchasePrice: currentStockPrice,
-                                            isShowingTradingSuccess: $isShowingTradingSuccess,
-                                            actionBinding: $actionBinding)
-                                
-                                Spacer()
-                                
-                                tradeButton(action: "Sell",
-                                            portfolioViewModel: portfolioViewModel,
-                                            ticker: ticker.lowercased(),
-                                            companyName: companyName,
-                                            quantity: quantity ?? 0,
-                                            sellPrice: currentStockPrice,
-                                            isShowingTradingSuccess: $isShowingTradingSuccess,
-                                            actionBinding: $actionBinding)
-                                Spacer()
-                            }
-                        }
+                    .padding(.vertical, 10)
+                    .onAppear {
+                        isTextFieldActive = true
                     }
+                    .opacity(isShowingTradingSuccess ? 0 : 1)
                 }
-                .onAppear {
-                    isTextFieldActive = true
-                }
-                .opacity(isShowingTradingSuccess ? 0 : 1)
+            }
+            
+            if isShowingPopUp {
+                AlertPopupView(alertText: "Please enter a valid amount")
             }
         }
     }
@@ -139,6 +151,7 @@ struct tradeButton: View {
     var sellPrice: Double?
     
     @Binding var isShowingTradingSuccess: Bool
+    @Binding var isShowingPopUp: Bool
     @Binding var actionBinding: String
     
     var body: some View {
@@ -156,6 +169,15 @@ struct tradeButton: View {
                             print("Failed to buy stock")
                         }
                     }
+                } else {
+                    withAnimation {
+                        isShowingPopUp = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isShowingPopUp = false
+                            }
+                        }
+                    }
                 }
             } else if action == "Sell" {
                 if quantity > 0 {
@@ -169,6 +191,15 @@ struct tradeButton: View {
                             print("Successfully sold \(ticker.uppercased())")
                         } else {
                             print("Failed to sell stock")
+                        }
+                    }
+                } else {
+                    withAnimation {
+                        isShowingPopUp = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isShowingPopUp = false
+                            }
                         }
                     }
                 }

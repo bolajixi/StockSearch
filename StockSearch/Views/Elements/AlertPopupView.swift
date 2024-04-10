@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct AlertPopupView: View {
+    var alertText: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            
+            Text(alertText)
+                .frame(width: 260)
+                .padding(25)
+                .background(Color.gray)
+                .foregroundColor(Color.white)
+            .cornerRadius(50)
+        }
+        .transition(.opacity)
+        .animation(.default)
     }
 }
 
 #Preview {
-    AlertPopupView()
+    AlertPopupView(alertText: "Please enter a valid amount")
 }

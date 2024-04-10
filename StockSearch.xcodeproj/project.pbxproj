@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0FB0748C2BC5C55A0034DCC4 /* PortfolioTradingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */; };
 		0FB0748E2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748D2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift */; };
+		0FB074912BC70EC00034DCC4 /* AlertPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */; };
 		0FB0EC452BC1C94200AA19C3 /* PortfolioListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0EC442BC1C94200AA19C3 /* PortfolioListItemView.swift */; };
 		0FB0EC472BC1CD3E00AA19C3 /* WatchlistListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0EC462BC1CD3E00AA19C3 /* WatchlistListItemView.swift */; };
 		0FB0EC4A2BC1D01F00AA19C3 /* StockDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0EC492BC1D01F00AA19C3 /* StockDetailsView.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingView.swift; sourceTree = "<group>"; };
 		0FB0748D2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingSuccessView.swift; sourceTree = "<group>"; };
+		0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPopupView.swift; sourceTree = "<group>"; };
 		0FB0EC442BC1C94200AA19C3 /* PortfolioListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListItemView.swift; sourceTree = "<group>"; };
 		0FB0EC462BC1CD3E00AA19C3 /* WatchlistListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistListItemView.swift; sourceTree = "<group>"; };
 		0FB0EC492BC1D01F00AA19C3 /* StockDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailsView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FB0748F2BC70E980034DCC4 /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+				0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */,
+			);
+			path = Elements;
+			sourceTree = "<group>";
+		};
 		0FB0EC412BC1312400AA19C3 /* Watchlist */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +204,7 @@
 		0FFC81F72BC109C300783BCD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0FB0748F2BC70E980034DCC4 /* Elements */,
 				0FB0EC482BC1CFFD00AA19C3 /* Stock */,
 				0FB0EC412BC1312400AA19C3 /* Watchlist */,
 				0FFC81FC2BC130F900783BCD /* Portfolio */,
@@ -350,6 +361,7 @@
 				0FF8C3B12BBA2FF0008480B7 /* Portfolio.swift in Sources */,
 				0FB0EC4A2BC1D01F00AA19C3 /* StockDetailsView.swift in Sources */,
 				0FB0EC452BC1C94200AA19C3 /* PortfolioListItemView.swift in Sources */,
+				0FB074912BC70EC00034DCC4 /* AlertPopupView.swift in Sources */,
 				0FB0748E2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift in Sources */,
 				0FF8C3B32BBA9AED008480B7 /* WatchlistViewModel.swift in Sources */,
 				0FEA65342BBA099500576B22 /* HomeView.swift in Sources */,
