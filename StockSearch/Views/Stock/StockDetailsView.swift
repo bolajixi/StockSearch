@@ -114,6 +114,7 @@ struct StockDetailsView: View {
                                                     Text("\(peer), ")
                                                         .foregroundColor(.blue)
                                                 }
+                                                .id(UUID())
                                                 .onAppear {
                                                     self.navigationTitle = self.ticker.uppercased()
                                                 }

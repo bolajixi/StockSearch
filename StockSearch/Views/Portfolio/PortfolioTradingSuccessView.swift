@@ -36,6 +36,7 @@ struct PortfolioTradingSuccessView: View {
                 CloseSuccessButton()
             }
         }
+        .animation(.easeIn(duration: 1))
     }
 }
 
