@@ -13,7 +13,7 @@ class WatchlistViewModel: ObservableObject {
     init() {
         fetchWatchlist { watchlist in
             if watchlist != nil {
-                print("Watchlist Fetched:", self.watchlist!)
+                print("Watchlist Fetched. OK!")
             } else {
                 print("Failed to fetch watchlist")
             }

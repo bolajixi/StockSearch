@@ -122,11 +122,13 @@ struct tradeButton: View {
     var purchasePrice: Double?
     var sellPrice: Double?
     
+    @State private var isShowingTradingSuccess = false
     var body: some View {
         Button(action: {
             if action == "Buy" {
                 portfolioViewModel.buyStock(stock: ticker, companyName: companyName, quantity: quantity, purchasePrice: purchasePrice!) { success in
                 if success {
+                    isShowingTradingSuccess.toggle()
                     print("Successfully bought \(ticker.uppercased())")
                 } else {
                     print("Failed to buy stock")
@@ -135,6 +137,7 @@ struct tradeButton: View {
             } else if action == "Sell" {
                 portfolioViewModel.sellStock(stock: ticker, quantity: quantity, sellPrice: sellPrice!) { success in
                     if success {
+                        isShowingTradingSuccess.toggle()
                         print("Successfully sold \(ticker.uppercased())")
                     } else {
                         print("Failed to sell stock")
@@ -149,6 +152,9 @@ struct tradeButton: View {
         .frame(width: 165)
         .background(Color.green)
         .cornerRadius(50)
+        .sheet(isPresented: $isShowingTradingSuccess) {
+            PortfolioTradingSuccessView(action: action, quantity: quantity, ticker: ticker)
+        }
     }
 }
 

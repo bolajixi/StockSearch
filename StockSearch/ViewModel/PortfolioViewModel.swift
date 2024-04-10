@@ -23,7 +23,7 @@ class PortfolioViewModel: ObservableObject {
     init() {
         fetchPortfolio { portfolio in
             if portfolio != nil {
-                print("Portfolio Fetched:", self.portfolio!)
+                print("Portfolio Fetched. OK!")
             } else {
                 print("Failed to fetch portfolio")
             }

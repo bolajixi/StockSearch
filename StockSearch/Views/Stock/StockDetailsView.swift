@@ -54,7 +54,6 @@ struct StockDetailsView: View {
                                 
                                 Button(action: {
                                     showTradingView.toggle()
-                                    print("bought stock")
                                 }, label: {
                                     Text("Trade")
                                         .foregroundColor(.white)
