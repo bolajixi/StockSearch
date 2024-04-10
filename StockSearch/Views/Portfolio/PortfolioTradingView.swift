@@ -144,28 +144,32 @@ struct tradeButton: View {
     var body: some View {
         Button(action: {
             if action == "Buy" {
-                portfolioViewModel.buyStock(stock: ticker, companyName: companyName, quantity: quantity, purchasePrice: purchasePrice!) { success in
-                if success {
-                    withAnimation {
-                        isShowingTradingSuccess.toggle()
-                        actionBinding = action
-                    }
-                    print("Successfully bought \(ticker.uppercased())")
-                } else {
-                    print("Failed to buy stock")
-                }
-            }
-            } else if action == "Sell" {
-                portfolioViewModel.sellStock(stock: ticker, quantity: quantity, sellPrice: sellPrice!) { success in
-                    if success {
-                        withAnimation {
-                            isShowingTradingSuccess.toggle()
-                            actionBinding = action
+                if quantity > 0 {
+                    portfolioViewModel.buyStock(stock: ticker, companyName: companyName, quantity: quantity, purchasePrice: purchasePrice!) { success in
+                        if success {
+                            withAnimation {
+                                isShowingTradingSuccess.toggle()
+                                actionBinding = action
+                            }
+                            print("Successfully bought \(ticker.uppercased())")
+                        } else {
+                            print("Failed to buy stock")
                         }
-                        
-                        print("Successfully sold \(ticker.uppercased())")
-                    } else {
-                        print("Failed to sell stock")
+                    }
+                }
+            } else if action == "Sell" {
+                if quantity > 0 {
+                    portfolioViewModel.sellStock(stock: ticker, quantity: quantity, sellPrice: sellPrice!) { success in
+                        if success {
+                            withAnimation {
+                                isShowingTradingSuccess.toggle()
+                                actionBinding = action
+                            }
+                            
+                            print("Successfully sold \(ticker.uppercased())")
+                        } else {
+                            print("Failed to sell stock")
+                        }
                     }
                 }
             }
