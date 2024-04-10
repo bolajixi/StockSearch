@@ -74,7 +74,7 @@ struct PortfolioTradingView: View {
                         Spacer()
                         
                         VStack (alignment: .trailing) {
-                            Text("Share")
+                            Text("Share\(quantity ?? 0 > 0 ? "s" : "")")
                                 .font(.largeTitle)
                             .padding(.horizontal, 10)
                             

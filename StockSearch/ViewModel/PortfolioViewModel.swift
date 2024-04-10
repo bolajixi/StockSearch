@@ -88,7 +88,7 @@ class PortfolioViewModel: ObservableObject {
                     }
                 })
             } else {
-                print("Failed to remove from watchlist")
+                print("Failed to decdode fetch from portfolio")
                 completion(false)
             }
         }.resume()
@@ -130,7 +130,7 @@ class PortfolioViewModel: ObservableObject {
                     }
                 })
             } else {
-                print("Failed to remove from watchlist")
+                print("Failed to decdode fetch from portfolio")
                 completion(false)
             }
         }.resume()
