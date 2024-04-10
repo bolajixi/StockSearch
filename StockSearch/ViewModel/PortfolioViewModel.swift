@@ -40,7 +40,9 @@ class PortfolioViewModel: ObservableObject {
             }
             
             if let portfolioResponse = try? JSONDecoder().decode(PortfolioAPIResponse.self, from: data) {
-                self.portfolio = portfolioResponse.data[0]
+                DispatchQueue.main.async {
+                    self.portfolio = portfolioResponse.data[0]
+                }
                 completion(portfolioResponse.data[0])
             } else {
                 print("Failed to decode portfolio data")

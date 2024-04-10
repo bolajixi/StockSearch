@@ -30,7 +30,9 @@ class WatchlistViewModel: ObservableObject {
             }
             
             if let watchlistResponse = try? JSONDecoder().decode(WatchlistAPIResponse.self, from: data) {
-                self.watchlist = watchlistResponse.data
+                DispatchQueue.main.async {
+                    self.watchlist = watchlistResponse.data
+                }
                 completion(watchlistResponse.data)
             } else {
                 print("Failed to decode watchlist data")
@@ -67,7 +69,9 @@ class WatchlistViewModel: ObservableObject {
             }
             
             if let watchlistResponse = try? JSONDecoder().decode(WatchlistAPIResponse.self, from: data) {
-                self.watchlist = watchlistResponse.data
+                DispatchQueue.main.async {
+                    self.watchlist = watchlistResponse.data
+                }
                 completion(true)
             } else {
                 print("Failed to remove from watchlist")
@@ -103,7 +107,9 @@ class WatchlistViewModel: ObservableObject {
             }
             
             if let watchlistResponse = try? JSONDecoder().decode(WatchlistAPIResponse.self, from: data) {
-                self.watchlist = watchlistResponse.data
+                DispatchQueue.main.async {
+                    self.watchlist = watchlistResponse.data
+                }
                 completion(true)
             } else {
                 print("Failed to remove from watchlist")
