@@ -46,11 +46,11 @@ struct FirstNewsListItem: View {
     let newsItem: NewsItem
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 8) {
+        VStack (alignment: .leading, spacing: 0) {
             AsyncImageView(url: URL(string: newsItem.image), width: 360, height: 250)
                 .padding(.vertical, 10)
             
-            VStack (alignment: .leading, spacing: 8) {
+            VStack (alignment: .leading) {
                 let timeDifference = getTimeDifference(from: newsItem.datetime)
                 
                 HStack {
@@ -96,7 +96,7 @@ struct NewsListItem: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading) {
                 let timeDifference = getTimeDifference(from: newsItem.datetime)
                 
                 HStack {
@@ -192,9 +192,40 @@ struct NewsDetailsView: View {
             .fontWeight(.medium)
             .padding(0.5)
             
+            HStack {
+                ShareButton(shareLink: "https://twitter.com/intent/tweet?text=\(newsItem.headline)&url=\(newsItem.url)",
+                            shareImage: "x_share_icon",
+                            width: 50,
+                            height: 50)
+                
+                ShareButton(shareLink: "https://www.facebook.com/sharer/sharer.php?u=\(newsItem.url)",
+                            shareImage: "fb_share_icon",
+                            width: 50,
+                            height: 50)
+            }
+            
             Spacer()
         }
         .padding()
+    }
+}
+
+struct ShareButton: View {
+    let shareLink: String
+    let shareImage: String
+    let width: CGFloat
+    let height: CGFloat
+    
+    var body: some View {
+        Button(action: {
+            guard let url = URL(string: shareLink) else { return }
+            UIApplication.shared.open(url)
+        }) {
+            Image(shareImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: width, height: height)
+        }
     }
 }
 
