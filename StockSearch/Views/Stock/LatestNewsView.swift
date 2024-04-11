@@ -141,15 +141,56 @@ struct NewsListItem: View {
 }
 
 struct NewsDetailsView: View {
+    @Environment(\.presentationMode) var presentationMode
     let newsItem: NewsItem
     
     var body: some View {
-        VStack {
-            // Display the details of the news item
-            Text("Category: \(newsItem.category)")
-            Text("Headline: \(newsItem.headline)")
-            Text("Source: \(newsItem.source)")
-            // Add more details as needed
+        VStack (alignment: .leading) {
+            HStack(content: {
+                Spacer()
+                
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                        .padding(10)
+                })
+                .frame(width: 30, height: 30)
+            })
+            
+            Text(newsItem.source)
+                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            Text(newsItem.datetime)
+                .font(.headline)
+                .foregroundStyle(.gray)
+            
+            Divider()
+                .padding(.vertical, 10)
+            
+            Text(newsItem.headline)
+                .font(.headline)
+            
+            Text(newsItem.summary)
+            
+            HStack {
+                Text("For more details click")
+                    .foregroundColor(Color.gray.opacity(0.8))
+                
+                Button(action: {
+                    if let url = URL(string: newsItem.url) {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("here")
+                        .foregroundColor(Color.blue)
+                        .padding(0)
+                }
+            }
+            .fontWeight(.medium)
+            .padding(0.5)
             
             Spacer()
         }
