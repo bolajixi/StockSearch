@@ -135,6 +135,10 @@ struct StockDetailsView: View {
                         }
                         .padding(.vertical, 15)
                         .padding(.horizontal, 15)
+                        
+                        // Latest News Section
+                        LatestNewsView(newsItems: stockData.latestNews)
+                        
                     }
                     .navigationTitle(navigationTitle)
                     .toolbar{
