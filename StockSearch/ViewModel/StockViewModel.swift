@@ -217,7 +217,8 @@ class StockViewModel: ObservableObject {
             }
             
             if let latestNewsResponse = try? JSONDecoder().decode(LatestNewsAPIResponse.self, from: data) {
-                completion(latestNewsResponse.data)
+                let first20News = Array(latestNewsResponse.data.prefix(20))
+                completion(first20News)
             } else {
                 print("Failed to decode latest news data")
                 completion(nil)
