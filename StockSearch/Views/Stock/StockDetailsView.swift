@@ -142,6 +142,7 @@ struct StockDetailsView: View {
                                 .padding(.horizontal, 15)
                                 .padding(.vertical, 0)
                             LatestNewsView(newsItems: stockData.latestNews)
+                                .padding(.vertical, -23)
                         }
                         
                     }
