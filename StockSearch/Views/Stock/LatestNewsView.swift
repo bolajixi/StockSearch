@@ -12,7 +12,7 @@ struct LatestNewsView: View {
     @State private var selectedItem: NewsItem?
     
     var body: some View {
-        VStack {
+        VStack (alignment: .leading) {
             FirstNewsListItem(newsItem: newsItems[0])
                 .padding(.vertical, 5)
                 .onTapGesture {
@@ -47,7 +47,7 @@ struct FirstNewsListItem: View {
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
-            AsyncImageView(url: URL(string: newsItem.image), width: 360, height: 250)
+            AsyncImageView(url: URL(string: newsItem.image), width: 400, height: 250)
                 .padding(.vertical, 10)
             
             VStack (alignment: .leading) {
@@ -65,7 +65,6 @@ struct FirstNewsListItem: View {
                     .foregroundStyle(.black)
                     .font(.headline)
             }
-            
         }
     }
     

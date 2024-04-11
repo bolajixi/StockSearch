@@ -137,7 +137,12 @@ struct StockDetailsView: View {
                         .padding(.horizontal, 15)
                         
                         // Latest News Section
-                        LatestNewsView(newsItems: stockData.latestNews)
+                        VStack(alignment: .leading) {
+                            Text("News")
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 0)
+                            LatestNewsView(newsItems: stockData.latestNews)
+                        }
                         
                     }
                     .navigationTitle(navigationTitle)
