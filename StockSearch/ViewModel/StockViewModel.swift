@@ -74,7 +74,7 @@ class StockViewModel: ObservableObject {
         var recommendations: [RecommendationData]?
         var latestNews: [NewsItem]?
         var peers: [String]?
-        var sentiment: [SentimentData]?
+        var sentiment: SentimentDatum?
         var earnings: [EarningsData]?
         var priceHistory: [PriceData]?
         var volumeHistory: [VolumeData]?
@@ -245,7 +245,7 @@ class StockViewModel: ObservableObject {
         }.resume()
     }
     
-    private func fetchSentiment(forTicker ticker: String, completion: @escaping ([SentimentData]?) -> Void) {
+    private func fetchSentiment(forTicker ticker: String, completion: @escaping (SentimentDatum?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/insiderSentiment") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -255,7 +255,30 @@ class StockViewModel: ObservableObject {
             }
             
             if let sentimentResponse = try? JSONDecoder().decode(SentimentAPIResponse.self, from: data) {
-                completion(sentimentResponse.data.data)
+                let sentiments = sentimentResponse.data.data
+                
+                var positiveMsrp = 0.0
+                var negativeMsrp = 0.0
+                var positiveChange = 0.0
+                var negativeChange = 0.0
+                
+                for item in sentiments {
+                    if item.mspr > 0 {
+                        positiveMsrp += item.mspr
+                    } else {
+                        negativeMsrp += item.mspr
+                    }
+                    
+                    if item.change > 0 {
+                        positiveChange += item.change
+                    } else {
+                        negativeChange += item.change
+                    }
+                }
+                
+                let sentimentDatum = SentimentDatum(positiveMSPR: positiveMsrp, negativeMSPR: negativeMsrp, positiveChange: positiveChange, negativeChange: negativeChange)
+                
+                completion(sentimentDatum)
             } else {
                 print("Failed to decode sentiment data")
                 completion(nil)

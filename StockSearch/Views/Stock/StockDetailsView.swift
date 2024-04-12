@@ -141,7 +141,7 @@ struct StockDetailsView: View {
                             Text("Insights")
                                 .font(.title)
                             
-//                            InsightsView()
+                            InsightsView(companyName: stockData.info.name, positiveMSPR: stockData.sentiment.positiveMSPR, negativeMSPR: stockData.sentiment.negativeMSPR, positiveChange: stockData.sentiment.positiveChange, negativeChange: stockData.sentiment.negativeChange)
                         }
                         .padding(.vertical, 15)
                         .padding(.horizontal, 15)

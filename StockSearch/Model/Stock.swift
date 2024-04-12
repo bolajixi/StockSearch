@@ -78,8 +78,13 @@ struct SentimentData: Codable {
     var symbol: String
     var year: Int
     var month: Int
-    var change: Int
+    var change: Double
     var mspr: Double
+}
+
+struct SentimentDatum {
+    var positiveMSPR, negativeMSPR: Double
+    var positiveChange, negativeChange: Double
 }
 
 struct HistoryData: Codable {
@@ -253,7 +258,7 @@ struct StockDataResponse {
     var recommendations: [RecommendationData]
     var latestNews: [NewsItem]
     var peers: [String]
-    var sentiment: [SentimentData]
+    var sentiment: SentimentDatum
     var earnings: [EarningsData]
     var priceHistory: [PriceData]
     var volumeHistory: [VolumeData]
