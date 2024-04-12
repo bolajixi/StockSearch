@@ -139,10 +139,11 @@ struct StockDetailsView: View {
                         // Latest News Section
                         VStack(alignment: .leading) {
                             Text("News")
+                                .font(.title)
                                 .padding(.horizontal, 15)
                                 .padding(.vertical, 0)
                             LatestNewsView(newsItems: stockData.latestNews)
-                                .padding(.vertical, -23)
+                                .padding(.vertical, -30)
                         }
                         
                     }
