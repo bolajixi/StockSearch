@@ -16,27 +16,32 @@ struct InsightsView: View {
     let positiveMSPR, negativeMSPR, positiveChange, negativeChange: Double
     
     var body: some View {
-        LazyVGrid(columns: columns, content: {
-            // Row 1
-            headerCell(cellValue: companyName)
-            headerCell(cellValue: "MSPR")
-            headerCell(cellValue: "Change")
+        VStack {
+            Text("Insider Sentiments")
+                .font(.title2)
             
-            // Row 2
-            headerCell(cellValue: "Total")
-            dataCell(cellValue: String(format: "%.2f", (positiveMSPR + negativeMSPR)) )
-            dataCell(cellValue: String(format: "%.2f", (positiveChange + negativeChange)) )
-            
-            // Row 3
-            headerCell(cellValue: "Positive")
-            dataCell(cellValue: String(format: "%.2f", positiveMSPR) )
-            dataCell(cellValue: String(format: "%.2f", positiveChange) )
-            
-            // Row 4
-            headerCell(cellValue: "Negative")
-            dataCell(cellValue: String(format: "%.2f", negativeMSPR) )
-            dataCell(cellValue: String(format: "%.2f", negativeChange) )
-        })
+            LazyVGrid(columns: columns, content: {
+                // Row 1
+                headerCell(cellValue: companyName)
+                headerCell(cellValue: "MSPR")
+                headerCell(cellValue: "Change")
+                
+                // Row 2
+                headerCell(cellValue: "Total")
+                dataCell(cellValue: String(format: "%.2f", (positiveMSPR + negativeMSPR)) )
+                dataCell(cellValue: String(format: "%.2f", (positiveChange + negativeChange)) )
+                
+                // Row 3
+                headerCell(cellValue: "Positive")
+                dataCell(cellValue: String(format: "%.2f", positiveMSPR) )
+                dataCell(cellValue: String(format: "%.2f", positiveChange) )
+                
+                // Row 4
+                headerCell(cellValue: "Negative")
+                dataCell(cellValue: String(format: "%.2f", negativeMSPR) )
+                dataCell(cellValue: String(format: "%.2f", negativeChange) )
+            })
+        }
     }
 }
 
