@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0FAB7EDF2BC8BE3D00F0124B /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */; };
+		0FAB7EE12BC8D4CC00F0124B /* HighchartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EE02BC8D4CC00F0124B /* HighchartsView.swift */; };
+		0FAB7EE42BC8D57E00F0124B /* RecommendationChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EE32BC8D57E00F0124B /* RecommendationChartsView.swift */; };
+		0FAB7EE62BC8D76400F0124B /* EPSChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EE52BC8D76400F0124B /* EPSChartsView.swift */; };
+		0FAB7EE82BC8D79A00F0124B /* TimeChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EE72BC8D79A00F0124B /* TimeChartsView.swift */; };
 		0FB0748C2BC5C55A0034DCC4 /* PortfolioTradingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */; };
 		0FB0748E2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748D2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift */; };
 		0FB074912BC70EC00034DCC4 /* AlertPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */; };
@@ -51,6 +55,11 @@
 
 /* Begin PBXFileReference section */
 		0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
+		0FAB7EE02BC8D4CC00F0124B /* HighchartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighchartsView.swift; sourceTree = "<group>"; };
+		0FAB7EE32BC8D57E00F0124B /* RecommendationChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationChartsView.swift; sourceTree = "<group>"; };
+		0FAB7EE52BC8D76400F0124B /* EPSChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPSChartsView.swift; sourceTree = "<group>"; };
+		0FAB7EE72BC8D79A00F0124B /* TimeChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeChartsView.swift; sourceTree = "<group>"; };
+		0FAB7EE92BC8F3E700F0124B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingView.swift; sourceTree = "<group>"; };
 		0FB0748D2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingSuccessView.swift; sourceTree = "<group>"; };
 		0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPopupView.swift; sourceTree = "<group>"; };
@@ -103,19 +112,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FAB7EE22BC8D56100F0124B /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				0FAB7EE32BC8D57E00F0124B /* RecommendationChartsView.swift */,
+				0FAB7EE52BC8D76400F0124B /* EPSChartsView.swift */,
+				0FAB7EE72BC8D79A00F0124B /* TimeChartsView.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		0FB0748F2BC70E980034DCC4 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
 				0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */,
 			);
 			path = Elements;
-			sourceTree = "<group>";
-		};
-		0FB074922BC7184A0034DCC4 /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Charts;
 			sourceTree = "<group>";
 		};
 		0FB0EC412BC1312400AA19C3 /* Watchlist */ = {
@@ -129,10 +141,11 @@
 		0FB0EC482BC1CFFD00AA19C3 /* Stock */ = {
 			isa = PBXGroup;
 			children = (
-				0FB074922BC7184A0034DCC4 /* Charts */,
+				0FAB7EE22BC8D56100F0124B /* Charts */,
 				0FB0EC492BC1D01F00AA19C3 /* StockDetailsView.swift */,
 				0FB074932BC7188B0034DCC4 /* LatestNewsView.swift */,
 				0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */,
+				0FAB7EE02BC8D4CC00F0124B /* HighchartsView.swift */,
 			);
 			path = Stock;
 			sourceTree = "<group>";
@@ -160,6 +173,7 @@
 		0FEA65302BBA099500576B22 /* StockSearch */ = {
 			isa = PBXGroup;
 			children = (
+				0FAB7EE92BC8F3E700F0124B /* Info.plist */,
 				0FEA65312BBA099500576B22 /* StockSearchApp.swift */,
 				0FF8C3B62BBAB386008480B7 /* Model */,
 				0FFC81F62BC0F7F700783BCD /* ViewModel */,
@@ -369,19 +383,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FAB7EE62BC8D76400F0124B /* EPSChartsView.swift in Sources */,
 				0FFC81FB2BC130C700783BCD /* PortfolioDetailsView.swift in Sources */,
 				0FB0748C2BC5C55A0034DCC4 /* PortfolioTradingView.swift in Sources */,
 				0FB0EC4C2BC1D55D00AA19C3 /* SplashScreenView.swift in Sources */,
 				0FF8C3B12BBA2FF0008480B7 /* Portfolio.swift in Sources */,
 				0FB0EC4A2BC1D01F00AA19C3 /* StockDetailsView.swift in Sources */,
+				0FAB7EE12BC8D4CC00F0124B /* HighchartsView.swift in Sources */,
 				0FB0EC452BC1C94200AA19C3 /* PortfolioListItemView.swift in Sources */,
 				0FB074912BC70EC00034DCC4 /* AlertPopupView.swift in Sources */,
 				0FB0748E2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift in Sources */,
 				0FF8C3B32BBA9AED008480B7 /* WatchlistViewModel.swift in Sources */,
 				0FEA65342BBA099500576B22 /* HomeView.swift in Sources */,
+				0FAB7EE82BC8D79A00F0124B /* TimeChartsView.swift in Sources */,
 				0FEA65322BBA099500576B22 /* StockSearchApp.swift in Sources */,
 				0FF8C3AB2BBA1430008480B7 /* Stock.swift in Sources */,
 				0FF8C3B52BBA9B00008480B7 /* PortfolioViewModel.swift in Sources */,
+				0FAB7EE42BC8D57E00F0124B /* RecommendationChartsView.swift in Sources */,
 				0FF8C3AF2BBA2E48008480B7 /* Watchlist.swift in Sources */,
 				0FF8C3AD2BBA18BF008480B7 /* StockViewModel.swift in Sources */,
 				0FAB7EDF2BC8BE3D00F0124B /* InsightsView.swift in Sources */,
@@ -553,6 +571,8 @@
 				DEVELOPMENT_TEAM = QM3HQ9ZZJ7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StockSearch/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -582,6 +602,8 @@
 				DEVELOPMENT_TEAM = QM3HQ9ZZJ7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StockSearch/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

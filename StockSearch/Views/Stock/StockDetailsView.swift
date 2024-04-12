@@ -46,6 +46,8 @@ struct StockDetailsView: View {
                         .padding(.vertical, 15)
                         .padding(.horizontal, 15)
                         
+//                        TimeChartsView()
+                        
                         // Portfolio Section
                         VStack(alignment: .leading) {
                             Text("Portfolio")
@@ -121,11 +123,10 @@ struct StockDetailsView: View {
                                                     Text("\(peer), ")
                                                         .foregroundColor(.blue)
                                                 }
-                                                .id(UUID())
+                                                .id(peer)
                                                 .onAppear {
                                                     self.navigationTitle = self.ticker.uppercased()
                                                 }
-
                                             }
                                         })
                                     })
