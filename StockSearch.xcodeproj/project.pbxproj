@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FAB7EDF2BC8BE3D00F0124B /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */; };
 		0FB0748C2BC5C55A0034DCC4 /* PortfolioTradingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */; };
 		0FB0748E2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0748D2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift */; };
 		0FB074912BC70EC00034DCC4 /* AlertPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		0FB0748B2BC5C55A0034DCC4 /* PortfolioTradingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingView.swift; sourceTree = "<group>"; };
 		0FB0748D2BC604C10034DCC4 /* PortfolioTradingSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTradingSuccessView.swift; sourceTree = "<group>"; };
 		0FB074902BC70EC00034DCC4 /* AlertPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPopupView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				0FB074922BC7184A0034DCC4 /* Charts */,
 				0FB0EC492BC1D01F00AA19C3 /* StockDetailsView.swift */,
 				0FB074932BC7188B0034DCC4 /* LatestNewsView.swift */,
+				0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */,
 			);
 			path = Stock;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				0FF8C3B52BBA9B00008480B7 /* PortfolioViewModel.swift in Sources */,
 				0FF8C3AF2BBA2E48008480B7 /* Watchlist.swift in Sources */,
 				0FF8C3AD2BBA18BF008480B7 /* StockViewModel.swift in Sources */,
+				0FAB7EDF2BC8BE3D00F0124B /* InsightsView.swift in Sources */,
 				0FB0EC472BC1CD3E00AA19C3 /* WatchlistListItemView.swift in Sources */,
 				0FB074942BC7188B0034DCC4 /* LatestNewsView.swift in Sources */,
 			);

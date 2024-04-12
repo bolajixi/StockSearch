@@ -14,6 +14,10 @@ struct StockDetailsView: View {
     @State private var navigationTitle: String = ""
     @State private var showTradingView = false
     
+    let columns: [GridItem] = [GridItem(.flexible()),
+                               GridItem(.flexible()),
+                               GridItem(.flexible())]
+    
     init(ticker: String) {
         self.ticker = ticker
         self._stockViewModel = StateObject(wrappedValue: StockViewModel())
@@ -45,7 +49,8 @@ struct StockDetailsView: View {
                         // Portfolio Section
                         VStack(alignment: .leading) {
                             Text("Portfolio")
-                                .font(.headline)
+                                .font(.title)
+                                .padding(.vertical, -5)
                             
                             HStack{
                                 Text("You have 0 shares of \(ticker.uppercased()).\nStart trading!")
@@ -70,6 +75,7 @@ struct StockDetailsView: View {
                         // Stats section
                         VStack(alignment: .leading) {
                             Text("Stats")
+                                .font(.title)
                             
                             HStack{
                                 Text("High Price:   $\(String(format: "%.2f", stockData.summary.high))")
@@ -86,6 +92,7 @@ struct StockDetailsView: View {
                         // About section
                         VStack(alignment: .leading) {
                             Text("About")
+                                .font(.title)
                             
                             HStack{
                                 VStack(alignment: .leading) {
@@ -132,6 +139,9 @@ struct StockDetailsView: View {
                         // Insights Section
                         VStack(alignment: .leading) {
                             Text("Insights")
+                                .font(.title)
+                            
+//                            InsightsView()
                         }
                         .padding(.vertical, 15)
                         .padding(.horizontal, 15)
