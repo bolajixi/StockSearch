@@ -270,11 +270,11 @@ struct AutoCompleteResult: Codable {
 struct StockDataResponse {
     var info: Info
     var summary: Summary
-    var recommendations: [RecommendationData]
+    var recommendations: RecommendationDatum
     var latestNews: [NewsItem]
     var peers: [String]
     var sentiment: SentimentDatum
-    var earnings: [EarningsData]
+    var earnings: EarningsDatum
     var priceHistory: [PriceData]
     var volumeHistory: [VolumeData]
     var ohlcHistory: [OHLCData]
