@@ -14,6 +14,7 @@ struct TimeChartsView: View {
     let price: [[Any]]
     let volume: [[Any]]
     let ohlc: [[Any]]
+    @State var selectedTab = "hourly"
     
     var hourlyChartOptions: String {
         """
@@ -68,7 +69,7 @@ struct TimeChartsView: View {
     
     var historicalChartOptions: String {
         """
-        Highcharts.chart('container', {
+        Highcharts.stockChart('container', {
             title: { text: `\(stocktTicker) Historical`, style: { color: '#333333'} },
             subtitle: {
                 text: 'With SMA and Volume by Price technical indicators'
@@ -166,26 +167,58 @@ struct TimeChartsView: View {
     
     var body: some View {
         VStack {
-            TabView {
-                // Hourly charts
-                HighchartsView(
-                    chartOptions: hourlyChartOptions
-                )
-                .frame(width: UIScreen.main.bounds.width, height: 430)
-                .tabItem {
-                    Image(systemName: "chart.xyaxis.line")
-                    Text("Hourly")
+            ZStack {
+                if selectedTab == "hourly" {
+                    // Hourly charts
+                    HighchartsView(
+                        chartOptions: hourlyChartOptions
+                    )
+                    .frame(width: UIScreen.main.bounds.width, height: 450)
                 }
                 
-                // Yearly charts
-                HighchartsView(
-                    chartOptions: historicalChartOptions
-                )
-                .frame(width: UIScreen.main.bounds.width, height: 450)
-                .tabItem {
-                    Image(systemName: "clock")
-                    Text("Historical")
+                
+                if selectedTab == "historical" {
+                    // Yearly charts
+                    HighchartsView(
+                        chartOptions: historicalChartOptions
+                    )
+                    .frame(width: UIScreen.main.bounds.width, height: 450)
                 }
+            }
+            
+            // Tab selector
+            HStack {
+                Spacer()
+                
+                Button(action: { withAnimation(nil) { selectedTab = "hourly" } }, label: {
+                    VStack {
+                        Image(systemName: "chart.xyaxis.line")
+                            .foregroundColor(selectedTab == "hourly" ? .blue : .gray)
+                            .font(.title2)
+                        Text("Hourly")
+                            .foregroundColor(selectedTab == "hourly" ? .blue : .gray)
+                            .font(.caption2)
+                    }
+                })
+                .padding()
+                
+                
+                Spacer()
+                Spacer()
+                
+                Button(action: { withAnimation(nil) { selectedTab = "historical" } }, label: {
+                    VStack {
+                        Image(systemName: selectedTab == "historical" ? "clock.fill" : "clock")
+                            .foregroundColor(selectedTab == "historical" ? .blue : .gray)
+                            .font(.title2)
+                        Text("Historical")
+                            .foregroundColor(selectedTab == "historical" ? .blue : .gray)
+                            .font(.caption2)
+                    }
+                })
+                .padding()
+                
+                Spacer()
             }
         }
     }
