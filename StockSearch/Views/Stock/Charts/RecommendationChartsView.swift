@@ -28,7 +28,7 @@ struct RecommendationChartsView: View {
                 "split": true
             },
             "xAxis": {
-                "categories": \(arrayToString(periods)),
+                "categories": \(periods),
                 "labels": {
                     format: '{value:%Y-%b}'
                 }
