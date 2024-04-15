@@ -181,7 +181,7 @@ struct TimeChartsView: View {
                 HighchartsView(
                     chartOptions: historicalChartOptions
                 )
-                .frame(width: UIScreen.main.bounds.width, height: 430)
+                .frame(width: UIScreen.main.bounds.width, height: 450)
                 .tabItem {
                     Image(systemName: "clock")
                     Text("Historical")
