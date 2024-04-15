@@ -74,10 +74,12 @@ struct EPSChartsView: View {
     }
     
     var body: some View {
-        HighchartsView(
-            chartOptions: chartOptions
-        )
-        .frame(width: UIScreen.main.bounds.width, height: 430)
+        VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, content: {
+            HighchartsView(
+                chartOptions: chartOptions
+            )
+            .frame(width: 393, height: 430)
+        })
     }
 }
 

@@ -157,7 +157,7 @@ struct StockDetailsView: View {
                             periods: stockData.recommendations.periods
                         )
                         
-                        // EPS Chart
+                        // EPS Chart (Optional width: 393)
                         EPSChartsView(
                             periods: stockData.earnings.timePeriods,
                             actual: stockData.earnings.actual,
