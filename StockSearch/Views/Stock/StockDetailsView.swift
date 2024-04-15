@@ -147,6 +147,23 @@ struct StockDetailsView: View {
                         .padding(.vertical, 15)
                         .padding(.horizontal, 15)
                         
+                        // Recommendation Chart
+                        RecommendationChartsView(
+                            strongBuy: stockData.recommendations.strongBuy,
+                            buy: stockData.recommendations.buy,
+                            hold: stockData.recommendations.hold,
+                            sell: stockData.recommendations.sell,
+                            strongSell: stockData.recommendations.strongSell,
+                            periods: stockData.recommendations.periods
+                        )
+                        
+                        // EPS Chart
+                        EPSChartsView(
+                            periods: stockData.earnings.timePeriods,
+                            actual: stockData.earnings.actual,
+                            estimate: stockData.earnings.estimate
+                        )
+                        
                         // Latest News Section
                         VStack(alignment: .leading) {
                             Text("News")

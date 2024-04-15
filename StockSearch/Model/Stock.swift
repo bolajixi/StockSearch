@@ -87,6 +87,21 @@ struct SentimentDatum {
     var positiveChange, negativeChange: Double
 }
 
+struct EarningsDatum {
+    var actual: [String]
+    var estimate: [String]
+    var timePeriods: [String]
+}
+
+struct RecommendationDatum {
+    var strongBuy: [String]
+    var buy: [String]
+    var hold: [String]
+    var sell: [String]
+    var strongSell: [String]
+    var periods: [String]
+}
+
 struct HistoryData: Codable {
     var volume: Double
     var volumeWeightedAveragePrice: Double

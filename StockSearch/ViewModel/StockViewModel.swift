@@ -71,11 +71,11 @@ class StockViewModel: ObservableObject {
         
         var infoData: Info?
         var summary: Summary?
-        var recommendations: [RecommendationData]?
+        var recommendations: RecommendationDatum?
         var latestNews: [NewsItem]?
         var peers: [String]?
         var sentiment: SentimentDatum?
-        var earnings: [EarningsData]?
+        var earnings: EarningsDatum?
         var priceHistory: [PriceData]?
         var volumeHistory: [VolumeData]?
         var ohlcHistory: [OHLCData]?
@@ -189,7 +189,7 @@ class StockViewModel: ObservableObject {
         }.resume()
     }
     
-    private func fetchRecommendations(forTicker ticker: String, completion: @escaping ([RecommendationData]?) -> Void) {
+    private func fetchRecommendations(forTicker ticker: String, completion: @escaping (RecommendationDatum?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/recommendation") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -199,12 +199,33 @@ class StockViewModel: ObservableObject {
             }
             
             if let recommendationResponse = try? JSONDecoder().decode(RecommendationAPIResponse.self, from: data) {
-                completion(recommendationResponse.data)
+                let parsedData = self.parseRecommendation(recommendations: recommendationResponse)
+                completion(parsedData)
             } else {
                 print("Failed to decode recommendation data")
                 completion(nil)
             }
         }.resume()
+    }
+    
+    private func parseRecommendation(recommendations: RecommendationAPIResponse) -> RecommendationDatum {
+        var strongBuy = [String]()
+        var buy = [String]()
+        var hold = [String]()
+        var sell = [String]()
+        var strongSell = [String]()
+        var periods = [String]()
+        
+        for recommendation in recommendations.data {
+            periods.append(String(recommendation.period.prefix(7)))
+            strongSell.append(String(recommendation.strongSell))
+            strongBuy.append(String(recommendation.strongBuy))
+            sell.append(String(recommendation.sell))
+            buy.append(String(recommendation.buy))
+            hold.append(String(recommendation.hold))
+        }
+        
+        return RecommendationDatum(strongBuy: strongBuy, buy: buy, hold: hold, sell: sell, strongSell: strongSell, periods: periods)
     }
     
     private func fetchLatestNews(forTicker ticker: String, completion: @escaping ([NewsItem]?) -> Void) {
@@ -288,7 +309,7 @@ class StockViewModel: ObservableObject {
         }.resume()
     }
     
-    private func fetchEarning(forTicker ticker: String, completion: @escaping ([EarningsData]?) -> Void) {
+    private func fetchEarning(forTicker ticker: String, completion: @escaping (EarningsDatum?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/earnings") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -298,12 +319,23 @@ class StockViewModel: ObservableObject {
             }
             
             if let earningsResponse = try? JSONDecoder().decode(EarningsAPIResponse.self, from: data) {
-                completion(earningsResponse.data)
+                DispatchQueue.main.async {
+                    let earningsDatum = self.parseEarnings(earnings: earningsResponse)
+                    completion(earningsDatum)
+                }
             } else {
                 print("Failed to decode earnings data")
                 completion(nil)
             }
         }.resume()
+    }
+    
+    private func parseEarnings(earnings: EarningsAPIResponse) -> EarningsDatum {
+        let actual = earnings.data.map { "\($0.period): \($0.actual)" }
+        let estimate = earnings.data.map { "\($0.period): \($0.estimate)" }
+        let timePeriods = earnings.data.map { "\($0.period)<br>Surprise: \($0.surprise)" }
+        
+        return EarningsDatum(actual: actual, estimate: estimate, timePeriods: timePeriods)
     }
     
     private func fetchHistory(forTicker ticker: String, completion: @escaping ([PriceData]?, [VolumeData]?, [OHLCData]?) -> Void) {
