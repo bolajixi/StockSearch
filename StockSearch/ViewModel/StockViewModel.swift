@@ -331,8 +331,8 @@ class StockViewModel: ObservableObject {
     }
     
     private func parseEarnings(earnings: EarningsAPIResponse) -> EarningsDatum {
-        let actual = earnings.data.map { "\($0.period): \($0.actual)" }
-        let estimate = earnings.data.map { "\($0.period): \($0.estimate)" }
+        let actual = earnings.data.map { ["\($0.period)", $0.actual] }
+        let estimate = earnings.data.map { ["\($0.period)", $0.estimate] }
         let timePeriods = earnings.data.map { "\($0.period)<br>Surprise: \($0.surprise)" }
         
         return EarningsDatum(actual: actual, estimate: estimate, timePeriods: timePeriods)

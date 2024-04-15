@@ -88,8 +88,8 @@ struct SentimentDatum {
 }
 
 struct EarningsDatum {
-    var actual: [String]
-    var estimate: [String]
+    var actual: [[Any]]
+    var estimate: [[Any]]
     var timePeriods: [String]
 }
 
