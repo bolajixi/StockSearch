@@ -9,7 +9,7 @@ import SwiftUI
 import WebKit
 
 struct HighchartsView: UIViewRepresentable {
-    let htmlContent: String = "<!DOCTYPE html><html><head><script src=\"https://code.highcharts.com/highcharts.js\"></script></head><body><div id=\"container\" style=\"width:100%; height:100%;\"></div></body></html>"
+    let htmlContent: String = "<!DOCTYPE html><html><head><script src=\"https://code.highcharts.com/stock/highstock.js\"></script><script src=\"https://code.highcharts.com/stock/modules/exporting.js\"></script><script src=\"https://code.highcharts.com/stock/modules/export-data.js\"></script></head><body><div id=\"container\" style=\"width:100%; height:100%;\"></div></body></html>"
     
     let chartOptions: String
 
@@ -42,7 +42,8 @@ struct HighchartsView: UIViewRepresentable {
 }
 
 #Preview {
-    HighchartsView(chartOptions: """
+    HighchartsView(chartOptions: 
+    """
         Highcharts.chart('container', {
             chart: {
                 type: 'bar'
