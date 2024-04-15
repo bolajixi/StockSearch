@@ -12,54 +12,54 @@ struct EPSChartsView: View {
     let actual: [String]
     let estimate: [String]
     
-    private var chartOptions: String {
-        """
-        Highcharts.stockChart('container', {
-            "title": {
-                "text": "HistoricalEPSSurprises",
-                "style": {
-                    "color": "#333333"
-                }
-            },
-            "xAxis": {
-                "type": "datetime",
-                "categories": \(arrayToString(periods)),
-            },
-            "yAxis": {
-                "title": {
-                    "text": "QuarterlyEPS"
-                },
-                "min": 0
-            },
-            "tooltip": {
-                "shared": true,
-                "formatter": "function() { let tooltipText = ''; if (this.points && this.points.length > 0) { tooltipText += `${this.x}<br>`; this.points.forEach(function(point) { tooltipText += `<span style=\"color:${point.color}\">\\u25CF</span>${point.series.name}:<b>${point.y}</b><br>`; }); } return tooltipText; }"
-            },
-            "legend": {
-                "align": "center",
-                "verticalAlign": "bottom",
-                "shadow": false,
-                "borderColor": "#CCC",
-                "backgroundColor": "#f2f2f2"
-            },
-            "series": [
-                {
-                    "name": "Actual",
-                    "type": "spline",
-                    "data": \(arrayToString(actual))
-                },
-                {
-                    "name": "Estimate",
-                    "type": "spline",
-                    "data": \(arrayToString(estimate))
-                }
-            ],
-            "chart": {
-                "backgroundColor": "#f2f2f2"
-            }
-        });
-        """
-    }
+    var chartOptions: String {
+         """
+         Highcharts.stockChart('container', {
+             "title": {
+                 "text": "HistoricalEPSSurprises",
+                 "style": {
+                     "color": "#333333"
+                 }
+             },
+             "xAxis": {
+                 "type": "datetime",
+                 "categories": \(arrayToString(periods)),
+             },
+             "yAxis": {
+                 "title": {
+                     "text": "QuarterlyEPS"
+                 },
+                 "min": 0
+             },
+             "tooltip": {
+                 "shared": true,
+                 "formatter": "function() { let tooltipText = ''; if (this.points && this.points.length > 0) { tooltipText += `${this.x}<br>`; this.points.forEach(function(point) { tooltipText += `<span style=\"color:${point.color}\">\\u25CF</span>${point.series.name}:<b>${point.y}</b><br>`; }); } return tooltipText; }"
+             },
+             "legend": {
+                 "align": "center",
+                 "verticalAlign": "bottom",
+                 "shadow": false,
+                 "borderColor": "#CCC",
+                 "backgroundColor": "#f2f2f2"
+             },
+             "series": [
+                 {
+                     "name": "Actual",
+                     "type": "spline",
+                     "data": \(arrayToString(actual))
+                 },
+                 {
+                     "name": "Estimate",
+                     "type": "spline",
+                     "data": \(arrayToString(estimate))
+                 }
+             ],
+             "chart": {
+                 "backgroundColor": "#f2f2f2"
+             }
+         });
+         """
+     }
     
     var body: some View {
         HighchartsView(

@@ -15,7 +15,7 @@ struct RecommendationChartsView: View {
     var strongSell: [String]
     var periods: [String]
     
-    private var chartOptions: String {
+    var chartOptions: String {
         """
         Highcharts.stockChart('container', {
             "title": {
