@@ -17,9 +17,9 @@ struct RecommendationChartsView: View {
     
     var chartOptions: String {
         """
-        Highcharts.stockChart('container', {
+        Highcharts.chart('container', {
             "title": {
-                "text": "RecommendationTrends",
+                "text": "Recommendation Trends",
                 "style": {
                     "color": "#333333"
                 }
@@ -28,10 +28,9 @@ struct RecommendationChartsView: View {
                 "split": true
             },
             "xAxis": {
-                "type": "datetime",
                 "categories": \(arrayToString(periods)),
                 "labels": {
-                    "format": "{value:%Y-%b}"
+                    format: '{value:%Y-%b}'
                 }
             },
             "yAxis": {
@@ -82,7 +81,6 @@ struct RecommendationChartsView: View {
             ],
             "chart": {
                 "type": "column",
-                "backgroundColor": "#f2f2f2"
             }
         });
         """
@@ -92,7 +90,7 @@ struct RecommendationChartsView: View {
         HighchartsView(
             chartOptions: chartOptions
         )
-        .frame(width: 410, height: 350)
+        .frame(width: UIScreen.main.bounds.width, height: 350)
     }
     
     func arrayToString(_ array: [String]) -> String {
@@ -103,11 +101,11 @@ struct RecommendationChartsView: View {
 
 #Preview {
     RecommendationChartsView(
-        strongBuy: ["5", "7", "6", "4", "8"],
-        buy: ["3", "6", "8", "5", "7"],
-        hold: ["7", "5", "4", "6", "8"],
-        sell: ["4", "6", "5", "7", "9"],
-        strongSell: ["8", "9", "7", "5", "6"],
-        periods: ["1648378800", "1648465200", "1648551600", "1648638000", "1648724400"]
+        strongBuy: ["11", "12", "12", "12"],
+        buy: ["20", "20", "19", "22"],
+        hold: ["14", "14", "13", "13"],
+        sell: ["2", "2", "2", "1"],
+        strongSell: ["8", "9", "7", "5"],
+        periods: ["2024-04", "2024-03", "2024-02", "2024-01"]
     )
 }
