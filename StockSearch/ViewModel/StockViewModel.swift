@@ -76,9 +76,7 @@ class StockViewModel: ObservableObject {
         var peers: [String]?
         var sentiment: SentimentDatum?
         var earnings: EarningsDatum?
-        var priceHistory: [PriceData]?
-        var volumeHistory: [VolumeData]?
-        var ohlcHistory: [OHLCData]?
+        var history: HistoryDatum?
 
         let group = DispatchGroup()
 
@@ -125,22 +123,15 @@ class StockViewModel: ObservableObject {
         }
         
         group.enter()
-        fetchHistory(forTicker: ticker) { priceData, volumeData, ohlcData in
-            if let priceData = priceData, let volumeData = volumeData, let ohlcData = ohlcData {
-                priceHistory = priceData
-                volumeHistory = volumeData
-                ohlcHistory = ohlcData
-            } else {
-                print("Failed to fetch history data")
-            }
-
+        fetchHistory(forTicker: ticker) { data in
+            history = data
             group.leave()
         }
         
         // Notify when all tasks are completed
         group.notify(queue: .main) {
-            if let infoData = infoData, let summary = summary, let recommendations = recommendations, let latestNews = latestNews, let peers = peers, let sentiment = sentiment, let earnings = earnings, let priceHistory = priceHistory, let volumeHistory = volumeHistory, let ohlcHistory = ohlcHistory {
-                let stockDataResponse = StockDataResponse(info: infoData, summary: summary, recommendations: recommendations, latestNews: latestNews, peers: peers, sentiment: sentiment, earnings: earnings, priceHistory: priceHistory, volumeHistory: volumeHistory, ohlcHistory: ohlcHistory)
+            if let infoData = infoData, let summary = summary, let recommendations = recommendations, let latestNews = latestNews, let peers = peers, let sentiment = sentiment, let earnings = earnings, let history = history {
+                let stockDataResponse = StockDataResponse(info: infoData, summary: summary, recommendations: recommendations, latestNews: latestNews, peers: peers, sentiment: sentiment, earnings: earnings, history: history)
                 self.stockDataResponse = stockDataResponse
                 self.holdingStockResponse = stockDataResponse
                 
@@ -338,7 +329,7 @@ class StockViewModel: ObservableObject {
         return EarningsDatum(actual: actual, estimate: estimate, timePeriods: timePeriods)
     }
     
-    private func fetchHistory(forTicker ticker: String, completion: @escaping ([PriceData]?, [VolumeData]?, [OHLCData]?) -> Void) {
+    private func fetchHistory(forTicker ticker: String, completion: @escaping (HistoryDatum?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/history") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -348,15 +339,22 @@ class StockViewModel: ObservableObject {
             }
             
             if let historyResponse = try? JSONDecoder().decode(HistoryAPIResponse.self, from: data) {
-                let priceHistoryData = historyResponse.data.results.map {  PriceData(timestamp: $0.timestamp, price: $0.close) }
-                let volumeHistoryData = historyResponse.data.results.map { VolumeData(timestamp: $0.timestamp, volume: $0.volume) }
-                let ohlcData = historyResponse.data.results.map { OHLCData(timestamp: $0.timestamp, open: $0.open, close: $0.close, high: $0.high, low: $0.low) }
-
-                completion(priceHistoryData, volumeHistoryData, ohlcData)
+                DispatchQueue.main.async {
+                    let historyDatum = self.parseHistory(history: historyResponse)
+                    completion(historyDatum)
+                }
             } else {
                 print("Failed to decode history data")
-                completion(nil, nil, nil)
+                completion(nil)
             }
         }.resume()
+    }
+    
+    private func parseHistory(history: HistoryAPIResponse) -> HistoryDatum {
+        let priceHistoryData = history.data.results.map { [$0.timestamp, $0.close] }
+        let volumeHistoryData = history.data.results.map { [$0.timestamp, $0.volume] }
+        let ohlcData = history.data.results.map { [$0.timestamp, $0.open, $0.close, $0.high, $0.low] }
+        
+        return HistoryDatum(price: priceHistoryData, volume: volumeHistoryData, ohlc: ohlcData)
     }
 }

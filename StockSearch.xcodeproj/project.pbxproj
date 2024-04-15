@@ -115,9 +115,9 @@
 		0FAB7EE22BC8D56100F0124B /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				0FAB7EE72BC8D79A00F0124B /* TimeChartsView.swift */,
 				0FAB7EE32BC8D57E00F0124B /* RecommendationChartsView.swift */,
 				0FAB7EE52BC8D76400F0124B /* EPSChartsView.swift */,
-				0FAB7EE72BC8D79A00F0124B /* TimeChartsView.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";

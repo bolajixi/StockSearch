@@ -93,6 +93,12 @@ struct EarningsDatum {
     var timePeriods: [String]
 }
 
+struct HistoryDatum {
+    var price: [[Any]]
+    var volume: [[Any]]
+    var ohlc: [[Any]]
+}
+
 struct RecommendationDatum {
     var strongBuy: [String]
     var buy: [String]
@@ -275,7 +281,5 @@ struct StockDataResponse {
     var peers: [String]
     var sentiment: SentimentDatum
     var earnings: EarningsDatum
-    var priceHistory: [PriceData]
-    var volumeHistory: [VolumeData]
-    var ohlcHistory: [OHLCData]
+    var history: HistoryDatum
 }
