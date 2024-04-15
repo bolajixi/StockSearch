@@ -78,7 +78,7 @@ struct EPSChartsView: View {
             HighchartsView(
                 chartOptions: chartOptions
             )
-            .frame(width: 393, height: 430)
+            .frame(width: UIScreen.main.bounds.width, height: 430)
         })
     }
 }
