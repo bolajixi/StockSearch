@@ -22,6 +22,7 @@ struct PortfolioTradingView: View {
     
     @State private var isShowingTradingSuccess = false
     @State private var isShowingPopUp = false
+    @State private var popUpText = "Please enter a valid amount"
     @State private var actionBinding: String = ""
     
     var body: some View {
@@ -57,19 +58,21 @@ struct PortfolioTradingView: View {
                         
                         HStack {
                             TextField("0", text: $quantityInput)
-                                .keyboardType(.numberPad)
+//                                .keyboardType(.numberPad)
                                 .font(.system(size: 90))
                                 .frame(width: 125)
                                 .background(Color.clear)
                                 .padding(.horizontal, 10)
                                 .focused($isTextFieldActive)
                                 .onChange(of: quantityInput) {
-                                    self.quantity = Int(quantityInput)
-                                    
-                                    if let quantity = quantity, quantity > 0 {
-                                        self.calculatedTotalValue = currentStockPrice * Double(quantity)
-                                    } else {
-                                        self.calculatedTotalValue = 0.0
+                                    if quantityInput.isNumber {
+                                        self.quantity = Int(quantityInput)
+                                        
+                                        if let quantity = quantity, quantity > 0 {
+                                            self.calculatedTotalValue = currentStockPrice * Double(quantity)
+                                        } else {
+                                            self.calculatedTotalValue = 0.0
+                                        }
                                     }
                                 }
                             
@@ -101,10 +104,11 @@ struct PortfolioTradingView: View {
                                                 portfolioViewModel: portfolioViewModel,
                                                 ticker: ticker.lowercased(),
                                                 companyName: companyName,
-                                                quantity: quantity ?? 0,
+                                                quantity: quantity ?? 875399945720117270,
                                                 purchasePrice: currentStockPrice,
                                                 isShowingTradingSuccess: $isShowingTradingSuccess,
                                                 isShowingPopUp: $isShowingPopUp,
+                                                popUpText: $popUpText,
                                                 actionBinding: $actionBinding
                                     )
                                     
@@ -114,10 +118,11 @@ struct PortfolioTradingView: View {
                                                 portfolioViewModel: portfolioViewModel,
                                                 ticker: ticker.lowercased(),
                                                 companyName: companyName,
-                                                quantity: quantity ?? 0,
+                                                quantity: quantity ?? 875399945720117270,
                                                 sellPrice: currentStockPrice,
                                                 isShowingTradingSuccess: $isShowingTradingSuccess,
                                                 isShowingPopUp: $isShowingPopUp,
+                                                popUpText: $popUpText,
                                                 actionBinding: $actionBinding
                                     )
                                     Spacer()
@@ -127,14 +132,14 @@ struct PortfolioTradingView: View {
                     }
                     .padding(.vertical, 10)
                     .onAppear {
-                        isTextFieldActive = true
+                        isTextFieldActive = false
                     }
                     .opacity(isShowingTradingSuccess ? 0 : 1)
                 }
             }
             
             if isShowingPopUp {
-                AlertPopupView(alertText: "Please enter a valid amount")
+                AlertPopupView(alertText: popUpText)
             }
         }
     }
@@ -152,12 +157,23 @@ struct tradeButton: View {
     
     @Binding var isShowingTradingSuccess: Bool
     @Binding var isShowingPopUp: Bool
+    @Binding var popUpText: String
     @Binding var actionBinding: String
     
     var body: some View {
         Button(action: {
             if action == "Buy" {
-                if quantity > 0 {
+                if quantity == 875399945720117270 {
+                    withAnimation {
+                        isShowingPopUp = true
+                        popUpText = "Please enter a valid amount"
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isShowingPopUp = false
+                            }
+                        }
+                    }
+                } else if quantity > 0 {
                     portfolioViewModel.buyStock(stock: ticker, companyName: companyName, quantity: quantity, purchasePrice: purchasePrice!) { success in
                         if success {
                             withAnimation {
@@ -169,9 +185,10 @@ struct tradeButton: View {
                             print("Failed to buy stock")
                         }
                     }
-                } else {
+                } else if quantity < 1 {
                     withAnimation {
                         isShowingPopUp = true
+                        popUpText = "Cannot buy non-positive shares"
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 isShowingPopUp = false
@@ -180,7 +197,17 @@ struct tradeButton: View {
                     }
                 }
             } else if action == "Sell" {
-                if quantity > 0 {
+                if quantity == 875399945720117270 {
+                    withAnimation {
+                        isShowingPopUp = true
+                        popUpText = "Please enter a valid amount"
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isShowingPopUp = false
+                            }
+                        }
+                    }
+                } else if quantity > 0 {
                     portfolioViewModel.sellStock(stock: ticker, quantity: quantity, sellPrice: sellPrice!) { success in
                         if success {
                             withAnimation {
@@ -193,9 +220,10 @@ struct tradeButton: View {
                             print("Failed to sell stock")
                         }
                     }
-                } else {
+                } else if quantity < 1 {
                     withAnimation {
                         isShowingPopUp = true
+                        popUpText = "Cannot sell non-positive shares"
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 isShowingPopUp = false
@@ -212,6 +240,15 @@ struct tradeButton: View {
         .frame(width: 165)
         .background(Color.green)
         .cornerRadius(50)
+    }
+}
+
+// (Source): "https://sarunw.com/posts/how-to-check-if-string-is-number-in-swift/"
+extension String {
+    var isNumber: Bool {
+        return self.range(
+            of: "^-?[0-9]+$",
+            options: .regularExpression) != nil
     }
 }
 
