@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var watchlistViewModel: WatchlistViewModel
     @EnvironmentObject var portfolioViewModel: PortfolioViewModel
+    
+    @State private var popUpText = ""
 
     let ticker = "META"
     let companyName = "Meta Platforms Inc"

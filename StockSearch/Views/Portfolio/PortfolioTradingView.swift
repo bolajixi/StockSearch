@@ -58,7 +58,7 @@ struct PortfolioTradingView: View {
                         
                         HStack {
                             TextField("0", text: $quantityInput)
-//                                .keyboardType(.numberPad)
+                                .keyboardType(.default)
                                 .font(.system(size: 90))
                                 .frame(width: 125)
                                 .background(Color.clear)
