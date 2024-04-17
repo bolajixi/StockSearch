@@ -20,6 +20,10 @@ struct PortfolioStock: Codable, Identifiable {
     var purchaseHistory: [PurchaseHistory]
     var _id: String
     var purchaseDate: String
+    var averageCostPerShare = 0.0
+    var change: Double = 0.0
+    var changePercentage: Double = 0.0
+    var marketValue: Double = 0.0
     
     enum CodingKeys: String, CodingKey {
         case symbol

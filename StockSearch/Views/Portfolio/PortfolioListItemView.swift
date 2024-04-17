@@ -10,7 +10,7 @@ import SwiftUI
 struct PortfolioListItemView: View {
     let ticker: String
     let quantity: Int
-    let totalPurchaseCost: Double
+    let marketValue: Double
     let change: Double
     let percentageChange: Double
     
@@ -27,7 +27,7 @@ struct PortfolioListItemView: View {
             Spacer()
             
             VStack(alignment: .trailing) {
-                Text("$\(String(format: "%.2f", totalPurchaseCost))")
+                Text("$\(String(format: "%.2f", marketValue))")
                     .fontWeight(.bold)
                 HStack {
                     Image(systemName: percentageChange > 0 ? "arrow.up.right" : "arrow.down.right")
@@ -55,5 +55,5 @@ struct PortfolioListItemView: View {
 
 
 #Preview {
-    PortfolioListItemView(ticker: "AAPL", quantity: 3, totalPurchaseCost: 517.90, change: 0.19, percentageChange: 0.04)
+    PortfolioListItemView(ticker: "AAPL", quantity: 3, marketValue: 517.90, change: 0.19, percentageChange: 0.04)
 }

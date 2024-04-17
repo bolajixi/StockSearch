@@ -40,9 +40,37 @@ class PortfolioViewModel: ObservableObject {
             }
             
             if let portfolioResponse = try? JSONDecoder().decode(PortfolioAPIResponse.self, from: data) {
-                DispatchQueue.main.async {
-                    self.portfolio = portfolioResponse.data[0]
+                let stockViewModel = StockViewModel()
+                var portfolio = portfolioResponse.data[0]
+                
+                for index in 0..<portfolio.stocks.count {
+                    var portfolioStock = portfolio.stocks[index]
+                    let currentIndex = index // Capture the current index
+
+                    portfolioStock.averageCostPerShare = portfolioStock.quantity > 0 ? portfolioStock.totalPurchaseCost / Double(portfolioStock.quantity) : 0
+
+                    stockViewModel.fetchSummary(forTicker: portfolioStock.symbol) { summary in
+                        if let summary = summary {
+                            portfolioStock.change = (summary.current - portfolioStock.averageCostPerShare) * Double(portfolioStock.quantity)
+                            portfolioStock.changePercentage = portfolioStock.change / (portfolioStock.averageCostPerShare * Double(portfolioStock.quantity))
+                            portfolioStock.marketValue = summary.current * Double(portfolioStock.quantity)
+
+                            // Update the portfolio with the modified stock at the captured index
+                            portfolio.stocks[currentIndex] = portfolioStock
+
+                            // Check if all stock updates are completed
+                            let allUpdatesCompleted = portfolio.stocks.enumerated().allSatisfy { $0.offset != currentIndex || $0.element.marketValue != 0 }
+
+                            // If all updates are completed, update the UI
+                            if allUpdatesCompleted {
+                                DispatchQueue.main.async {
+                                    self.portfolio = portfolio
+                                }
+                            }
+                        }
+                    }
                 }
+
                 completion(portfolioResponse.data[0])
             } else {
                 print("Failed to decode portfolio data")
@@ -134,5 +162,10 @@ class PortfolioViewModel: ObservableObject {
                 completion(false)
             }
         }.resume()
+    }
+    
+    func portfolioInStock(forTicker ticker: String) -> PortfolioStock? {
+        guard let portfolio = portfolio else { return nil }
+        return portfolio.stocks.first { $0.symbol == ticker.lowercased() }
     }
 }

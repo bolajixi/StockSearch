@@ -187,7 +187,7 @@ class StockViewModel: ObservableObject {
         }.resume()
     }
     
-    private func fetchSummary(forTicker ticker: String, completion: @escaping (Summary?) -> Void) {
+    public func fetchSummary(forTicker ticker: String, completion: @escaping (Summary?) -> Void) {
         guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/summary") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in

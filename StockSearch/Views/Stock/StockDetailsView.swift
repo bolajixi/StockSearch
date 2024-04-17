@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct StockDetailsView: View {
+    @EnvironmentObject var portfolioViewModel: PortfolioViewModel
     @StateObject var stockViewModel: StockViewModel
     
     let ticker: String
@@ -59,7 +60,17 @@ struct StockDetailsView: View {
                                 .padding(.vertical, -5)
                             
                             HStack{
-                                Text("You have 0 shares of \(ticker.uppercased()).\nStart trading!")
+                                if let portfolioStock = portfolioViewModel.portfolioInStock(forTicker: ticker) {
+                                    VStack (alignment: .leading, spacing: 13) {
+                                        Text("Shares Owned: \(portfolioStock.quantity)")
+                                        Text("Avg. Cost / Share: $\(String(format: "%.2f", portfolioStock.averageCostPerShare))")
+                                        Text("Total Cost: $\(String(format: "%.2f", portfolioStock.totalPurchaseCost))")
+                                        Text("Change: $\(String(format: "%.2f", portfolioStock.change))")
+                                        Text("Market Value: $\(String(format: "%.2f", portfolioStock.marketValue))")
+                                    }
+                                } else {
+                                    Text("You have 0 shares of \(ticker.uppercased()).\nStart trading!")
+                                }
                                 
                                 Spacer()
                                 

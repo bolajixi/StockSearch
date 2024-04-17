@@ -41,7 +41,7 @@ struct HomeView: View {
                         
                         ForEach(portfolio.stocks) { stock in
                             NavigationLink(destination: StockDetailsView(ticker: stock.symbol.lowercased())) {
-                                PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, totalPurchaseCost: stock.totalPurchaseCost, change: 0.19, percentageChange: 0.04)
+                                PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, marketValue: stock.marketValue, change: stock.change, percentageChange: stock.changePercentage)
                             }
                         }
                         .onMove(perform: moveItemPortfolio)
