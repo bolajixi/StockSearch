@@ -33,11 +33,22 @@ struct PortfolioListItemView: View {
                     Text("$\(String(format: "%.2f", change))")
                     Text("(\(String(format: "%.2f", percentageChange))%)")
                 }
+                .foregroundStyle(getStockColor(for: percentageChange))
             }
         }
         .font(.system(size: 18))
         .padding(.top, 4.5)
         .padding(.bottom, 4.5)
+    }
+    
+    func getStockColor(for percentageChange: Double) -> Color {
+        if percentageChange > 0 {
+            return .green
+        } else if percentageChange < 0 {
+            return .red
+        } else {
+            return .black
+        }
     }
 }
 

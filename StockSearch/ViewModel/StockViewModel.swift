@@ -17,7 +17,7 @@ class StockViewModel: ObservableObject {
     @Published var searchTerm: String = ""
     @Published var stockDataResponse: StockDataResponse?
     @Published var isLoading = false
-    @Published var stockNotFound: Bool = false
+    @Published var stockColor: String = ""
     @Published var marketIsOpen = true
     @Published var autocompleteData: [AutoCompleteResult]?
     
@@ -158,6 +158,8 @@ class StockViewModel: ObservableObject {
                     
                     self.stockDataResponse = stockDataResponse
                     self.holdingStockResponse = stockDataResponse
+                    self.stockColor = self.getStockColor(value: stockDataResponse.summary.changePercentage)
+                    
                     self.isLoading = false
                     completion(stockDataResponse)
                 }
@@ -445,5 +447,15 @@ class StockViewModel: ObservableObject {
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = TimeZone(identifier: "UTC")
         return formatter.string(from: date)
+    }
+    
+    func getStockColor(value: Double) -> String {
+        if value > 0 {
+            return "green"
+        } else if value < 0 {
+            return "red"
+        } else {
+            return "black"
+        }
     }
 }
