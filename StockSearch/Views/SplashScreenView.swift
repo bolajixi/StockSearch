@@ -10,7 +10,6 @@ import SwiftUI
 struct SplashScreenView: View {
     @State private var isShowingProgress = false
     @State private var isShowingHome = false
-    @State private var isActive = false
     let splashScreenDuration = 2.5
     
     var body: some View {

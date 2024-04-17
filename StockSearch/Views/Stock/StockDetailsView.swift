@@ -39,8 +39,12 @@ struct StockDetailsView: View {
                             
                             HStack {
                                 Text("$\(String(format: "%.2f", stockData.summary.current))")
-                                Text("$\(String(format: "%.2f", stockData.summary.change))")
-                                Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
+                                HStack {
+                                    Image(systemName: stockData.summary.changePercentage > 0 ? "arrow.up.right" : "arrow.down.right")
+                                    Text("$\(String(format: "%.2f", stockData.summary.change))")
+                                    Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
+                                }
+                                .foregroundStyle(getStockColor(stockViewModel.stockColor))
                             }
                         }
                         .padding(.vertical, 15)
@@ -193,6 +197,19 @@ struct StockDetailsView: View {
             if stockViewModel.stockDataResponse == nil {
                 stockViewModel.fetchData(forTicker: ticker) { _ in }
             }
+        }
+    }
+    
+    func getStockColor(_ color: String) -> Color {
+        switch color {
+        case "green":
+            return Color.green
+        case "red":
+            return Color.red
+        case "black":
+            return Color.black
+        default:
+            return Color.black
         }
     }
 }

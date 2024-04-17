@@ -30,6 +30,7 @@ struct WatchlistListItemView: View {
                 Text("$\(String(format: "%.2f", currentPrice))")
                     .fontWeight(.bold)
                 HStack {
+                    Image(systemName: percentageChange > 0 ? "arrow.up.right" : "arrow.down.right")
                     Text("$\(String(format: "%.2f", change))")
                     Text("(\(String(format: "%.2f", percentageChange))%)")
                 }

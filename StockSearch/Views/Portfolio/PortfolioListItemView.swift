@@ -30,6 +30,7 @@ struct PortfolioListItemView: View {
                 Text("$\(String(format: "%.2f", totalPurchaseCost))")
                     .fontWeight(.bold)
                 HStack {
+                    Image(systemName: percentageChange > 0 ? "arrow.up.right" : "arrow.down.right")
                     Text("$\(String(format: "%.2f", change))")
                     Text("(\(String(format: "%.2f", percentageChange))%)")
                 }
