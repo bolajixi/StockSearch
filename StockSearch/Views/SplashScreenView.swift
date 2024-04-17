@@ -7,25 +7,40 @@
 
 import SwiftUI
 
-struct SplashScreenView: View {    
+struct SplashScreenView: View {
+    @State private var isShowingProgress = false
+    @State private var isShowingHome = false
     @State private var isActive = false
-    let splashScreenDuration = 4.5
+    let splashScreenDuration = 2.5
     
     var body: some View {
-        if isActive {
+        if isShowingHome {
             HomeView()
         } else {
             VStack {
-                Image("AppIcon_512")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 290, height: 290) 
-            }
-            .onAppear{
-                DispatchQueue.main.asyncAfter(deadline: .now() + splashScreenDuration) {
-                    withAnimation {
-                        self.isActive = true
-                    }
+                if isShowingProgress {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                withAnimation {
+                                    self.isShowingHome = true
+                                }
+                            }
+                        }
+                } else {
+                    Image("AppIcon_512")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 290, height: 290)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + splashScreenDuration) {
+                                withAnimation {
+                                    self.isShowingProgress = true
+                                }
+                            }
+                        }
                 }
             }
         }
