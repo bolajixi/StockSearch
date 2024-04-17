@@ -282,4 +282,5 @@ struct StockDataResponse {
     var sentiment: SentimentDatum
     var earnings: EarningsDatum
     var history: HistoryDatum
+    var hourlyHistory: HistoryDatum
 }

@@ -13,12 +13,12 @@ let baseURL: String = "http://127.0.0.1:3000"
 
 class StockViewModel: ObservableObject {
     public var holdingStockResponse: StockDataResponse?
-    @Published var searchTerm: String = ""
     
+    @Published var searchTerm: String = ""
     @Published var stockDataResponse: StockDataResponse?
     @Published var isLoading = false
     @Published var stockNotFound: Bool = false
-    
+    @Published var marketIsOpen = true
     @Published var autocompleteData: [AutoCompleteResult]?
     
     var subscriptions = Set<AnyCancellable>()
@@ -130,14 +130,37 @@ class StockViewModel: ObservableObject {
         
         // Notify when all tasks are completed
         group.notify(queue: .main) {
-            if let infoData = infoData, let summary = summary, let recommendations = recommendations, let latestNews = latestNews, let peers = peers, let sentiment = sentiment, let earnings = earnings, let history = history {
-                let stockDataResponse = StockDataResponse(info: infoData, summary: summary, recommendations: recommendations, latestNews: latestNews, peers: peers, sentiment: sentiment, earnings: earnings, history: history)
-                self.stockDataResponse = stockDataResponse
-                self.holdingStockResponse = stockDataResponse
+            if let infoData = infoData, 
+                let summary = summary,
+                let recommendations = recommendations,
+                let latestNews = latestNews,
+                let peers = peers,
+                let sentiment = sentiment,
+                let earnings = earnings,
+                let history = history {
                 
-                self.isLoading = false
-                
-                completion(stockDataResponse)
+                self.fetchHourlyHistory(forTicker: ticker, closingDate: summary.timestamp) { hourlyData in
+                    guard let hourlyData = hourlyData else {
+                            print("Error: Hourly data is nil")
+                            return
+                        }
+                    let stockDataResponse = StockDataResponse(
+                        info: infoData,
+                        summary: summary,
+                        recommendations: recommendations,
+                        latestNews: latestNews,
+                        peers: peers,
+                        sentiment: sentiment,
+                        earnings: earnings,
+                        history: history,
+                        hourlyHistory: hourlyData
+                    )
+                    
+                    self.stockDataResponse = stockDataResponse
+                    self.holdingStockResponse = stockDataResponse
+                    self.isLoading = false
+                    completion(stockDataResponse)
+                }
             } else {
                 completion(nil)
             }
@@ -356,5 +379,71 @@ class StockViewModel: ObservableObject {
         let ohlcData = history.data.results.map { [$0.timestamp, $0.open, $0.close, $0.high, $0.low] }
         
         return HistoryDatum(price: priceHistoryData, volume: volumeHistoryData, ohlc: ohlcData)
+    }
+    
+    private func fetchHourlyHistory(forTicker ticker: String, closingDate: String, completion: @escaping (HistoryDatum?) -> Void) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        guard let _closingDate = dateFormatter.date(from: closingDate) else {
+            print("Failed to parse closing date")
+            return
+        }
+        
+        guard let (startTimestamp, endTimestamp) = calculateTimes(closingDate: _closingDate) else {
+            print("Failed to calculate times")
+            return
+        }
+        
+        
+        let fromDateFormatted = formatDate(startTimestamp)
+        let toDateFormatted = formatDate(endTimestamp)
+        
+        guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/history?from=\(fromDateFormatted)&to=\(toDateFormatted)") else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch info data: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            if let hourlyHistoryResponse = try? JSONDecoder().decode(HistoryAPIResponse.self, from: data) {
+                DispatchQueue.main.async {
+                    let hourlyHistoryDatum = self.parseHistory(history: hourlyHistoryResponse)
+                    completion(hourlyHistoryDatum)
+                }
+            } else {
+                print("Failed to decode history data")
+                completion(nil)
+            }
+        }.resume()
+    }
+    
+    private func calculateTimes(closingDate: Date) -> (Date, Date)? {
+        let today = Date()
+        
+        var startTime = Date()
+        var endTime = today
+        endTime = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? today
+        
+        if marketIsOpen {
+            let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? today
+            startTime = Calendar.current.startOfDay(for: yesterday)
+        } else {
+            let marketClose = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: closingDate) ?? Date()
+            let oneDayBeforeClose = Calendar.current.date(byAdding: .day, value: -1, to: marketClose) ?? Date()
+            startTime = Calendar.current.startOfDay(for: oneDayBeforeClose)
+            endTime = marketClose
+        }
+        
+        return (startTime, endTime)
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter.string(from: date)
     }
 }
