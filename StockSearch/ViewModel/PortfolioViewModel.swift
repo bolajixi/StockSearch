@@ -43,6 +43,9 @@ class PortfolioViewModel: ObservableObject {
                 let stockViewModel = StockViewModel()
                 var portfolio = portfolioResponse.data[0]
                 
+                var completedUpdatesCount = 0
+                let totalStocksCount = portfolio.stocks.count
+
                 for index in 0..<portfolio.stocks.count {
                     var portfolioStock = portfolio.stocks[index]
                     let currentIndex = index // Capture the current index
@@ -55,19 +58,22 @@ class PortfolioViewModel: ObservableObject {
                             portfolioStock.changePercentage = portfolioStock.change / (portfolioStock.averageCostPerShare * Double(portfolioStock.quantity))
                             portfolioStock.marketValue = summary.current * Double(portfolioStock.quantity)
 
-                            // Update the portfolio with the modified stock at the captured index
                             portfolio.stocks[currentIndex] = portfolioStock
-
-                            // Check if all stock updates are completed
-                            let allUpdatesCompleted = portfolio.stocks.enumerated().allSatisfy { $0.offset != currentIndex || $0.element.marketValue != 0 }
-
-                            // If all updates are completed, update the UI
-                            if allUpdatesCompleted {
+                            completedUpdatesCount += 1
+                            
+                            if completedUpdatesCount == totalStocksCount {
                                 DispatchQueue.main.async {
                                     self.portfolio = portfolio
                                 }
                             }
                         }
+                    }
+                }
+
+                // dispatch the empty portfolio to the main queue if there are no stocks
+                if totalStocksCount == 0 {
+                    DispatchQueue.main.async {
+                        self.portfolio = portfolio
                     }
                 }
 
