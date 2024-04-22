@@ -58,21 +58,19 @@ struct PortfolioTradingView: View {
                         
                         HStack {
                             TextField("0", text: $quantityInput)
-                                .keyboardType(.default)
+                                .keyboardType(.numberPad)
                                 .font(.system(size: 90))
                                 .frame(width: 125)
                                 .background(Color.clear)
                                 .padding(.horizontal, 10)
                                 .focused($isTextFieldActive)
                                 .onChange(of: quantityInput) {
-                                    if quantityInput.isNumber {
-                                        self.quantity = Int(quantityInput)
-                                        
-                                        if let quantity = quantity, quantity > 0 {
-                                            self.calculatedTotalValue = currentStockPrice * Double(quantity)
-                                        } else {
-                                            self.calculatedTotalValue = 0.0
-                                        }
+                                    self.quantity = Int(quantityInput)
+                                    
+                                    if let quantity = quantity, quantity > 0 {
+                                        self.calculatedTotalValue = currentStockPrice * Double(quantity)
+                                    } else {
+                                        self.calculatedTotalValue = 0.0
                                     }
                                 }
                             
@@ -163,10 +161,22 @@ struct tradeButton: View {
     var body: some View {
         Button(action: {
             if action == "Buy" {
+                let totalCost = Double(quantity) * purchasePrice!
+                
                 if quantity == 875399945720117270 {
                     withAnimation {
                         isShowingPopUp = true
                         popUpText = "Please enter a valid amount"
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isShowingPopUp = false
+                            }
+                        }
+                    }
+                } else if totalCost > portfolioViewModel.portfolio?.availableBalance ?? 0 {
+                    withAnimation {
+                        isShowingPopUp = true
+                        popUpText = "Not enough money to buy"
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 isShowingPopUp = false
@@ -197,10 +207,22 @@ struct tradeButton: View {
                     }
                 }
             } else if action == "Sell" {
+                let quantityOwnedForStock: Int? = portfolioViewModel.portfolio?.stocks.first(where: { $0.symbol == ticker })?.quantity ?? 0
+                
                 if quantity == 875399945720117270 {
                     withAnimation {
                         isShowingPopUp = true
                         popUpText = "Please enter a valid amount"
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isShowingPopUp = false
+                            }
+                        }
+                    }
+                } else if quantity > quantityOwnedForStock ?? 0 {
+                    withAnimation {
+                        isShowingPopUp = true
+                        popUpText = "Not enough shares to sell"
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation {
                                 isShowingPopUp = false
@@ -240,15 +262,6 @@ struct tradeButton: View {
         .frame(width: 165)
         .background(Color.green)
         .cornerRadius(50)
-    }
-}
-
-// (Source): "https://sarunw.com/posts/how-to-check-if-string-is-number-in-swift/"
-extension String {
-    var isNumber: Bool {
-        return self.range(
-            of: "^-?[0-9]+$",
-            options: .regularExpression) != nil
     }
 }
 

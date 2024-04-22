@@ -412,7 +412,8 @@ class StockViewModel: ObservableObject {
         let fromDateFormatted = formatDate(startTimestamp)
         let toDateFormatted = formatDate(endTimestamp)
         
-        guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/history?from=\(fromDateFormatted)&to=\(toDateFormatted)") else { return }
+//        guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/history?from=\(fromDateFormatted)&to=\(toDateFormatted)") else { return }
+        guard let url = URL(string: "\(baseURL)/api/v1/search/\(ticker)/history") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
