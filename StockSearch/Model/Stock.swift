@@ -262,11 +262,19 @@ struct AutoCompleteDataContainer: Codable {
     let result: [AutoCompleteResult]
 }
 
-struct AutoCompleteResult: Codable {
+struct AutoCompleteResult: Codable, Identifiable {
+    var id = UUID()
     var description: String
     var displaySymbol: String
     var symbol: String
     var type: String
+    
+    enum CodingKeys: String, CodingKey {
+        case description
+        case displaySymbol
+        case symbol
+        case type
+    }
 }
 
 // API Responses: END ----------------------------------------------

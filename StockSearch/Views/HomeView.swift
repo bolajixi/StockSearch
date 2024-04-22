@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var stockViewModel: StockViewModel
     @EnvironmentObject var watchlistViewModel: WatchlistViewModel
     @EnvironmentObject var portfolioViewModel: PortfolioViewModel
     
@@ -30,58 +31,71 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             List {
-                Text("\(dateFormatter.string(from: Date()))")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-                    .padding(.vertical, 4)
-                    .padding(.horizontal, 8)
-                
-                Section {
-                    if let portfolio = portfolioViewModel.portfolio {
-                        PortfolioDetailsView(netWorth: portfolioViewModel.netWorth, cashBalance:portfolio.availableBalance)
-                        
-                        ForEach(portfolio.stocks) { stock in
-                            NavigationLink(destination: StockDetailsView(ticker: stock.symbol.lowercased())) {
-                                PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, marketValue: stock.marketValue, change: stock.change, percentageChange: stock.changePercentage)
+                // Autocomplete Section (conditionally shown if search is active)
+                if stockViewModel.searchTerm.isEmpty == false {
+                    if let results = stockViewModel.autocompleteData {
+                        Section {
+                            ForEach(results) { result in
+                                NavigationLink(destination: StockDetailsView(ticker: result.symbol.lowercased())) {
+                                    SearchRowView(ticker: result.symbol, companyName: result.description)
+                                }
                             }
                         }
-                        .onMove(perform: moveItemPortfolio)
-                    } else {
-                        ProgressView()
                     }
-                } header: {
-                    Text("Portfolio")
-                }
-                
-                Section {
-                    if let watchlist = watchlistViewModel.watchlist {
-                        
-                        ForEach(watchlist.stocks) { stock in
-                            NavigationLink(destination: StockDetailsView(ticker: stock.ticker.lowercased())) {
-                                WatchlistListItemView(ticker: stock.ticker, companyName: stock.companyName, currentPrice: stock.currentPrice, change: stock.priceChange, percentageChange: stock.priceChangePercentage)
+                } else { //  (conditionally show list if search is not active)
+                    Text("\(dateFormatter.string(from: Date()))")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                    
+                    Section {
+                        if let portfolio = portfolioViewModel.portfolio {
+                            PortfolioDetailsView(netWorth: portfolioViewModel.netWorth, cashBalance:portfolio.availableBalance)
+                            
+                            ForEach(portfolio.stocks) { stock in
+                                NavigationLink(destination: StockDetailsView(ticker: stock.symbol.lowercased())) {
+                                    PortfolioListItemView(ticker: stock.symbol.uppercased(), quantity: stock.quantity, marketValue: stock.marketValue, change: stock.change, percentageChange: stock.changePercentage)
+                                }
                             }
+                            .onMove(perform: moveItemPortfolio)
+                        } else {
+                            ProgressView()
                         }
-                        .onDelete(perform: removeFavorite)
-                        .onMove(perform: moveItemWatchlist)
-                    } else {
-                        ProgressView()
+                    } header: {
+                        Text("Portfolio")
                     }
-                } header: {
-                    Text("Favorites")
+                    
+                    Section {
+                        if let watchlist = watchlistViewModel.watchlist {
+                            
+                            ForEach(watchlist.stocks) { stock in
+                                NavigationLink(destination: StockDetailsView(ticker: stock.ticker.lowercased())) {
+                                    WatchlistListItemView(ticker: stock.ticker, companyName: stock.companyName, currentPrice: stock.currentPrice, change: stock.priceChange, percentageChange: stock.priceChangePercentage)
+                                }
+                            }
+                            .onDelete(perform: removeFavorite)
+                            .onMove(perform: moveItemWatchlist)
+                        } else {
+                            ProgressView()
+                        }
+                    } header: {
+                        Text("Favorites")
+                    }
+                    
+                    Button(action: {
+                        UIApplication.shared.open(websiteURL)
+                    }) {
+                        Text("Powered by Finnhub.io")
+                            .foregroundColor(Color.gray.opacity(0.6))
+                            .font(.headline)
+                    }
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
-                
-                Button(action: {
-                    UIApplication.shared.open(websiteURL)
-                }) {
-                    Text("Powered by Finnhub.io")
-                        .foregroundColor(Color.gray.opacity(0.6))
-                        .font(.headline)
-                }
-                .padding(.vertical, 8)
-                .frame(maxWidth: .infinity, alignment: .center)
             }
-            .searchable(text: $searchTerm)
+            .searchable(text: $stockViewModel.searchTerm)
             .navigationTitle("Stocks")
             .navigationBarItems(trailing: EditButton())
         }
@@ -114,6 +128,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(StockViewModel())
         .environmentObject(WatchlistViewModel())
         .environmentObject(PortfolioViewModel())
 }

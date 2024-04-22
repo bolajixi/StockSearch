@@ -24,7 +24,6 @@ class StockViewModel: ObservableObject {
     var subscriptions = Set<AnyCancellable>()
     
     init() {
-        
         $searchTerm
             .removeDuplicates()
             .dropFirst()
@@ -42,11 +41,17 @@ class StockViewModel: ObservableObject {
     }
     
     func clear() {
-        stockDataResponse = nil
+//        stockDataResponse = nil
         autocompleteData = []
     }
     
     func fetchAutoComplete(forSearchTerm term: String, completion: @escaping (Bool) -> Void) {
+        guard term.count > 0 else {
+            print("Search term should be more than one character")
+            completion(false)
+            return
+        }
+        
         guard let url = URL(string: "\(baseURL)/api/v1/search?q=\(term.lowercased())") else { return }
 
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -56,7 +61,12 @@ class StockViewModel: ObservableObject {
             }
             
             if let autocompleteResponse = try? JSONDecoder().decode(AutoCompleteAPIResponse.self, from: data) {
-                self.autocompleteData = autocompleteResponse.data.result
+                let filteredResults = autocompleteResponse.data.result.filter { result in
+                    return result.type == "Common Stock" && !result.displaySymbol.contains(".")
+                }
+                DispatchQueue.main.async {
+                    self.autocompleteData = filteredResults
+                }
                 completion(true)
             } else {
                 print("Failed to decode autocomplete data")

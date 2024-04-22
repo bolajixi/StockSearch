@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F541C6D2BD638EE0014999F /* SearchRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F541C6C2BD638EE0014999F /* SearchRowView.swift */; };
 		0FAB7EDF2BC8BE3D00F0124B /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */; };
 		0FAB7EE12BC8D4CC00F0124B /* HighchartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EE02BC8D4CC00F0124B /* HighchartsView.swift */; };
 		0FAB7EE42BC8D57E00F0124B /* RecommendationChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAB7EE32BC8D57E00F0124B /* RecommendationChartsView.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F541C6C2BD638EE0014999F /* SearchRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRowView.swift; sourceTree = "<group>"; };
 		0FAB7EDE2BC8BE3D00F0124B /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		0FAB7EE02BC8D4CC00F0124B /* HighchartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighchartsView.swift; sourceTree = "<group>"; };
 		0FAB7EE32BC8D57E00F0124B /* RecommendationChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationChartsView.swift; sourceTree = "<group>"; };
@@ -112,6 +114,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F541C692BD630E80014999F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				0F541C6C2BD638EE0014999F /* SearchRowView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		0FAB7EE22BC8D56100F0124B /* Charts */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +242,7 @@
 		0FFC81F72BC109C300783BCD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0F541C692BD630E80014999F /* Search */,
 				0FB0748F2BC70E980034DCC4 /* Elements */,
 				0FB0EC482BC1CFFD00AA19C3 /* Stock */,
 				0FB0EC412BC1312400AA19C3 /* Watchlist */,
@@ -405,6 +416,7 @@
 				0FAB7EDF2BC8BE3D00F0124B /* InsightsView.swift in Sources */,
 				0FB0EC472BC1CD3E00AA19C3 /* WatchlistListItemView.swift in Sources */,
 				0FB074942BC7188B0034DCC4 /* LatestNewsView.swift in Sources */,
+				0F541C6D2BD638EE0014999F /* SearchRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
