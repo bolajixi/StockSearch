@@ -18,7 +18,7 @@ class StockViewModel: ObservableObject {
     @Published var stockDataResponse: StockDataResponse?
     @Published var isLoading = false
     @Published var stockColor: String = ""
-    @Published var marketIsOpen = true
+    @Published var marketIsOpen = false
     @Published var autocompleteData: [AutoCompleteResult]?
     
     var subscriptions = Set<AnyCancellable>()
@@ -207,12 +207,35 @@ class StockViewModel: ObservableObject {
             }
             
             if let summaryResponse = try? JSONDecoder().decode(SummaryAPIResponse.self, from: data) {
+                self.marketIsOpen = self.isMarketOpen(timestamp: summaryResponse.data.timestamp)
                 completion(summaryResponse.data)
             } else {
                 print("Failed to decode summary data")
                 completion(nil)
             }
         }.resume()
+    }
+    
+    private func isMarketOpen(timestamp: String) -> Bool {
+        let currentTime = Date()
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        guard let lastTimestamp = dateFormatter.date(from: timestamp) else {
+            
+            return false
+        }
+        
+        let elapsedTime = currentTime.timeIntervalSince(lastTimestamp)
+        let elapsedInMinutes = elapsedTime / 60
+        
+        if elapsedInMinutes <= 5 {
+            return true
+        } else {
+            return false
+        }
     }
     
     private func fetchRecommendations(forTicker ticker: String, completion: @escaping (RecommendationDatum?) -> Void) {
