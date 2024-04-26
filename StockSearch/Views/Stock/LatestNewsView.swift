@@ -241,14 +241,14 @@ struct AsyncImageView: View {
             case .success(let image):
                 image
                     .resizable()
+                    .scaledToFill()
                     .frame(width: width, height: height)
-                    .aspectRatio(contentMode: .fill)
                     .cornerRadius(10)
             case .failure:
                 Image(systemName: "photo")
                     .resizable()
+                    .scaledToFill()
                     .frame(width: width, height: height)
-                    .aspectRatio(contentMode: .fill)
                     .cornerRadius(18)
             @unknown default:
                 EmptyView()
