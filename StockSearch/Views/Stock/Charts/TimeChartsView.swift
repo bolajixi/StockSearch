@@ -166,60 +166,20 @@ struct TimeChartsView: View {
     }
     
     var body: some View {
-        VStack {
-            ZStack {
-                if selectedTab == "hourly" {
-                    // Hourly charts
-                    HighchartsView(
-                        chartOptions: hourlyChartOptions
-                    )
-                    .frame(width: UIScreen.main.bounds.width, height: 450)
+        TabView {
+            HighchartsView(chartOptions: hourlyChartOptions)
+                .tabItem {
+                    Image(systemName: "chart.xyaxis.line")
+                        .font(.title2)
+                    Text("Hourly")
                 }
-                
-                
-                if selectedTab == "historical" {
-                    // Yearly charts
-                    HighchartsView(
-                        chartOptions: historicalChartOptions
-                    )
-                    .frame(width: UIScreen.main.bounds.width, height: 450)
-                }
-            }
             
-            // Tab selector
-            HStack {
-                Spacer()
-                
-                Button(action: { withAnimation(nil) { selectedTab = "hourly" } }, label: {
-                    VStack {
-                        Image(systemName: "chart.xyaxis.line")
-                            .foregroundColor(selectedTab == "hourly" ? .blue : .gray)
-                            .font(.title2)
-                        Text("Hourly")
-                            .foregroundColor(selectedTab == "hourly" ? .blue : .gray)
-                            .font(.caption2)
-                    }
-                })
-                .padding()
-                
-                
-                Spacer()
-                Spacer()
-                
-                Button(action: { withAnimation(nil) { selectedTab = "historical" } }, label: {
-                    VStack {
-                        Image(systemName: selectedTab == "historical" ? "clock.fill" : "clock")
-                            .foregroundColor(selectedTab == "historical" ? .blue : .gray)
-                            .font(.title2)
-                        Text("Historical")
-                            .foregroundColor(selectedTab == "historical" ? .blue : .gray)
-                            .font(.caption2)
-                    }
-                })
-                .padding()
-                
-                Spacer()
-            }
+            HighchartsView(chartOptions: historicalChartOptions)
+                .tabItem {
+                    Image(systemName: selectedTab == "historical" ? "clock.fill" : "clock")
+                        .font(.title2)
+                    Text("Historical")
+                }
         }
     }
 }

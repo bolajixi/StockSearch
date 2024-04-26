@@ -57,6 +57,8 @@ struct StockDetailsView: View {
                                 .padding(.horizontal, 15)
                                 
                                 TimeChartsView(stocktTicker: ticker.uppercased(), stockColor: stockViewModel.stockColor, price: stockData.hourlyHistory.price, volume: stockData.history.volume, ohlc: stockData.history.ohlc)
+                                    .frame(width: 430, height: 500)
+                                
                                 
                                 // Portfolio Section
                                 VStack(alignment: .leading) {
