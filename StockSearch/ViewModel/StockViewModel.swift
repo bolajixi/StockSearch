@@ -13,6 +13,8 @@ let baseURL: String = "http://127.0.0.1:3000"
 
 class StockViewModel: ObservableObject {
     public var holdingStockResponse: StockDataResponse?
+    private var timer: Timer?
+    private var privateSearchTerm: String = ""
     
     @Published var searchTerm: String = ""
     @Published var stockDataResponse: StockDataResponse?
@@ -27,7 +29,7 @@ class StockViewModel: ObservableObject {
         $searchTerm
             .removeDuplicates()
             .dropFirst()
-            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+            .debounce(for: .seconds(0.6), scheduler: RunLoop.main)
             .sink { [weak self] term in
                 self?.clear()
                 self?.fetchAutoComplete(forSearchTerm: term) { success in
@@ -46,6 +48,7 @@ class StockViewModel: ObservableObject {
     }
     
     func fetchAutoComplete(forSearchTerm term: String, completion: @escaping (Bool) -> Void) {
+        print(term)
         guard term.count > 0 else {
             print("Search term should be more than one character")
             completion(false)
@@ -76,6 +79,9 @@ class StockViewModel: ObservableObject {
     }
 
     func fetchData(forTicker ticker: String, completion: @escaping (StockDataResponse?) -> Void) {
+        if ticker.count > 0 {
+            privateSearchTerm = ticker
+        }
         isLoading = stockDataResponse == nil
         stockDataResponse = nil
         
@@ -207,7 +213,9 @@ class StockViewModel: ObservableObject {
             }
             
             if let summaryResponse = try? JSONDecoder().decode(SummaryAPIResponse.self, from: data) {
-                self.marketIsOpen = self.isMarketOpen(timestamp: summaryResponse.data.timestamp)
+                DispatchQueue.main.async {
+                    self.marketIsOpen = self.isMarketOpen(timestamp: summaryResponse.data.timestamp)
+                }
                 completion(summaryResponse.data)
             } else {
                 print("Failed to decode summary data")
@@ -490,5 +498,32 @@ class StockViewModel: ObservableObject {
         } else {
             return "black"
         }
+    }
+    
+    private func startSummaryTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            if privateSearchTerm.count > 0 {
+                self.fetchSummary(forTicker: privateSearchTerm) { summary in
+                    if let summary = summary {
+                        DispatchQueue.main.async {
+                            self.stockDataResponse?.summary = summary
+                            print("Stock price updated for \(self.privateSearchTerm)...")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    deinit {
+        stopSummaryTimer()
+    }
+    
+    private func stopSummaryTimer() {
+        print("Stopping update for \(self.privateSearchTerm)...")
+        timer?.invalidate()
+        timer = nil
     }
 }

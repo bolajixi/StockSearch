@@ -29,7 +29,7 @@ struct HomeView: View {
     let websiteURL = URL(string: "https://finnhub.io")!
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 // Autocomplete Section (conditionally shown if search is active)
                 if stockViewModel.searchTerm.isEmpty == false {
@@ -97,7 +97,11 @@ struct HomeView: View {
             }
             .searchable(text: $stockViewModel.searchTerm)
             .navigationTitle("Stocks")
-            .navigationBarItems(trailing: EditButton())
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    EditButton()
+                }
+            }
         }
     }
     
