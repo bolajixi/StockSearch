@@ -96,6 +96,7 @@ struct HomeView: View {
                 }
             }
             .searchable(text: $stockViewModel.searchTerm)
+            .disableAutocorrection(true)
             .navigationTitle("Stocks")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

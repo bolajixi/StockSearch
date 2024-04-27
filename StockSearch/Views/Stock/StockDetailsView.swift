@@ -121,14 +121,20 @@ struct StockDetailsView: View {
                                     HStack{
                                         VStack(alignment: .leading) {
                                             Text("IPO Start Date:")
+                                                .padding(.bottom, 3.5)
                                             Text("Industry:")
+                                                .padding(.bottom, 3.5)
                                             Text("Webpage:")
+                                                .padding(.bottom, 3.5)
                                             Text("Company Peers:")
+                                                .padding(.bottom, 3.5)
                                         }
                                         
                                         VStack(alignment: .leading) {
                                             Text("\(stockData.info.ipo)")
+                                                .padding(.bottom, 3.5)
                                             Text("\(stockData.info.finnhubIndustry)")
+                                                .padding(.bottom, 3.5)
                                             Button(action: {
                                                 if let url = URL(string: stockData.info.weburl) {
                                                     UIApplication.shared.open(url)
@@ -137,6 +143,7 @@ struct StockDetailsView: View {
                                                 Text(stockData.info.weburl)
                                             }
                                             .foregroundColor(.blue)
+                                            .padding(.bottom, 3.5)
                                             
                                             ScrollView(.horizontal,  content: {
                                                 HStack (spacing: 0, content: {
@@ -152,7 +159,7 @@ struct StockDetailsView: View {
                                                     }
                                                 })
                                             })
-                                            .padding(.init(top: -8, leading: 0, bottom: 0, trailing: 0))
+                                            .padding(.init(top: 0, leading: 0, bottom: 3.5, trailing: 0))
                                         }
                                     }
                                 }
