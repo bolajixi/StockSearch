@@ -25,7 +25,8 @@ struct RecommendationChartsView: View {
                 }
             },
             "tooltip": {
-                "split": true
+                "headerFormat": '{point.x}<br/>',
+                "pointFormat": '`<span style="color: {point.color}">\\u25CF</span> {series.name}: <b>{point.y}</b>'
             },
             "xAxis": {
                 "categories": \(periods),
@@ -50,7 +51,7 @@ struct RecommendationChartsView: View {
             "series": [
                 {
                     "type": "column",
-                    "name": "StrongBuy",
+                    "name": "Strong Buy",
                     "data": \(arrayToString(strongBuy)),
                     "color": "rgb(22,94,43)"
                 },
@@ -74,7 +75,7 @@ struct RecommendationChartsView: View {
                 },
                 {
                     "type": "column",
-                    "name": "StrongSell",
+                    "name": "Strong Sell",
                     "data": \(arrayToString(strongSell)),
                     "color": "rgb(103,39,42)"
                 }
