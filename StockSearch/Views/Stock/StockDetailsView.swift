@@ -51,6 +51,11 @@ struct StockDetailsView: View {
                                             Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
                                         }
                                         .foregroundStyle(getStockColor(stockViewModel.stockColor))
+                                        
+                                        Spacer()
+                                        
+                                        AsyncImageView(url: URL(string: stockData.info.logo), width: 42, height: 42)
+//                                            .padding(.vertical, 10)
                                     }
                                 }
                                 .padding(.vertical, 15)
