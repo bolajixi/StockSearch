@@ -29,7 +29,6 @@ struct EPSChartsView: View {
                  title: {
                      text: 'Quarterly EPS'
                  },
-                 tickInterval: 0.25,
              },
              legend: {
                  align: "center",
