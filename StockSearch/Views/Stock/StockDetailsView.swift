@@ -41,21 +41,29 @@ struct StockDetailsView: View {
                         
                             VStack(alignment: .leading) {
                                 VStack(alignment: .leading) {
-                                    Text(stockData.info.name)
-                                    
                                     HStack {
-                                        Text("$\(String(format: "%.2f", stockData.summary.current))")
-                                        HStack {
-                                            Image(systemName: stockData.summary.changePercentage > 0 ? "arrow.up.right" : "arrow.down.right")
-                                            Text("$\(String(format: "%.2f", stockData.summary.change))")
-                                            Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
-                                        }
-                                        .foregroundStyle(getStockColor(stockViewModel.stockColor))
+                                        Text(stockData.info.name)
+                                            .foregroundColor(Color.gray)
                                         
                                         Spacer()
                                         
                                         AsyncImageView(url: URL(string: stockData.info.logo), width: 42, height: 42)
 //                                            .padding(.vertical, 10)
+                                    }
+                                    
+                                    
+                                    HStack (alignment: .bottom) {
+                                        Text("$\(String(format: "%.2f", stockData.summary.current))")
+                                            .font(.largeTitle)
+                                            .fontWeight(.semibold)
+                                        
+                                        HStack {
+                                            Image(systemName: stockData.summary.changePercentage > 0 ? "arrow.up.right" : "arrow.down.right")
+                                            Text("$\(String(format: "%.2f", stockData.summary.change))")
+                                            Text("(\(String(format: "%.2f", stockData.summary.changePercentage))%)")
+                                        }
+                                        .font(.title3)
+                                        .foregroundStyle(getStockColor(stockViewModel.stockColor))
                                     }
                                 }
                                 .padding(.vertical, 15)
