@@ -77,8 +77,20 @@ struct StockDetailsView: View {
                                                 Text("Shares Owned: \(portfolioStock.quantity)")
                                                 Text("Avg. Cost / Share: $\(String(format: "%.2f", portfolioStock.averageCostPerShare))")
                                                 Text("Total Cost: $\(String(format: "%.2f", portfolioStock.totalPurchaseCost))")
-                                                Text("Change: $\(String(format: "%.2f", portfolioStock.change))")
-                                                Text("Market Value: $\(String(format: "%.2f", portfolioStock.marketValue))")
+                                                
+                                                HStack (spacing: 0) {
+                                                    Text("Change: ")
+                                                    
+                                                    Text("$\(String(format: "%.2f", portfolioStock.change))")
+                                                        .foregroundStyle(getStockColor(stockViewModel.stockColor))
+                                                }
+                                                
+                                                HStack (spacing: 0) {
+                                                    Text("Market Value: ")
+                                                    
+                                                    Text("$\(String(format: "%.2f", portfolioStock.marketValue))")
+                                                        .foregroundStyle(getStockColor(stockViewModel.stockColor))
+                                                }
                                             }
                                         } else {
                                             Text("You have 0 shares of \(ticker.uppercased()).\nStart trading!")
