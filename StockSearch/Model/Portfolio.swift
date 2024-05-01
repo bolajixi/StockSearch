@@ -20,6 +20,7 @@ struct PortfolioStock: Codable, Identifiable {
     var purchaseHistory: [PurchaseHistory]
     var _id: String
     var purchaseDate: String
+    var currentPrice: Double
     var averageCostPerShare = 0.0
     var change: Double = 0.0
     var changePercentage: Double = 0.0
@@ -33,6 +34,7 @@ struct PortfolioStock: Codable, Identifiable {
         case purchaseHistory
         case _id
         case purchaseDate
+        case currentPrice
     }
 }
 

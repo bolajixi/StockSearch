@@ -90,14 +90,14 @@ struct StockDetailsView: View {
                                                     Text("Change: ")
                                                     
                                                     Text("$\(String(format: "%.2f", portfolioStock.change))")
-                                                        .foregroundStyle(getStockColor(stockViewModel.stockColor))
+                                                        .foregroundStyle(getStockColorGivenValue(for: portfolioStock.change))
                                                 }
                                                 
                                                 HStack (spacing: 0) {
                                                     Text("Market Value: ")
                                                     
                                                     Text("$\(String(format: "%.2f", portfolioStock.marketValue))")
-                                                        .foregroundStyle(getStockColor(stockViewModel.stockColor))
+                                                        .foregroundStyle(getStockColorGivenValue(for: portfolioStock.change))
                                                 }
                                             }
                                         } else {
@@ -290,6 +290,15 @@ struct StockDetailsView: View {
             return Color.black
         default:
             return Color.black
+        }
+    }
+    func getStockColorGivenValue(for percentageChange: Double) -> Color {
+        if percentageChange > 0 {
+            return .green
+        } else if percentageChange < 0 {
+            return .red
+        } else {
+            return .black
         }
     }
 }

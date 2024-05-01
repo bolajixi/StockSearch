@@ -14,7 +14,7 @@ class PortfolioViewModel: ObservableObject {
         
         var totalNetWorth = portfolio.availableBalance
         for stock in portfolio.stocks {
-            totalNetWorth += stock.totalPurchaseCost
+            totalNetWorth += (stock.currentPrice * Double(stock.quantity))
         }
         
         return totalNetWorth
