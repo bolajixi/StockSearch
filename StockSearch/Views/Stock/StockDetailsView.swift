@@ -126,14 +126,35 @@ struct StockDetailsView: View {
                                     Text("Stats")
                                         .font(.title)
                                     
-                                    HStack{
-                                        Text("High Price:   $\(String(format: "%.2f", stockData.summary.high))")
-                                        Text("Open Price:   $\(String(format: "%.2f", stockData.summary.open))")
+                                    HStack (spacing: 20){
+                                        HStack {
+                                            Text("High Price:  ")
+                                                .fontWeight(.bold)
+                                            Text("$\(String(format: "%.2f", stockData.summary.high))")
+                                        }
+                                        HStack {
+                                            Text("Open Price:  ")
+                                                .fontWeight(.bold)
+                                            Text("$\(String(format: "%.2f", stockData.summary.open))")
+                                        }
                                     }
-                                    HStack{
-                                        Text("Low Price:    $\(String(format: "%.2f", stockData.summary.low))")
-                                        Text("Prev. Close:  $\(String(format: "%.2f", stockData.summary.previousClose))")
+                                    .font(.system(size: 15))
+                                    .padding(.top, 8)
+                                    .padding(.bottom, 12)
+                                    
+                                    HStack (spacing: 20) {
+                                        HStack {
+                                            Text("Low Price:  ")
+                                                .fontWeight(.bold)
+                                            Text("$\(String(format: "%.2f", stockData.summary.low))")
+                                        }
+                                        HStack {
+                                            Text("Prev. Close:  ")
+                                                .fontWeight(.bold)
+                                            Text("$\(String(format: "%.2f", stockData.summary.previousClose))")
+                                        }
                                     }
+                                    .font(.system(size: 15))
                                 }
                                 .padding(.vertical, 15)
                                 .padding(.horizontal, 15)
@@ -143,7 +164,7 @@ struct StockDetailsView: View {
                                     Text("About")
                                         .font(.title)
                                     
-                                    HStack{
+                                    HStack (spacing: 20) {
                                         VStack(alignment: .leading) {
                                             Text("IPO Start Date:")
                                                 .padding(.bottom, 3.5)
@@ -154,6 +175,8 @@ struct StockDetailsView: View {
                                             Text("Company Peers:")
                                                 .padding(.bottom, 3.5)
                                         }
+                                        .font(.system(size: 15))
+                                        .fontWeight(.bold)
                                         
                                         VStack(alignment: .leading) {
                                             Text("\(stockData.info.ipo)")
@@ -186,6 +209,7 @@ struct StockDetailsView: View {
                                             })
                                             .padding(.init(top: 0, leading: 0, bottom: 3.5, trailing: 0))
                                         }
+                                        .font(.system(size: 15))
                                     }
                                 }
                                 .padding(.vertical, 15)
